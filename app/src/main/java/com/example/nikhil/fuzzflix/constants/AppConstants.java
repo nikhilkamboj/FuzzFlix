@@ -1,5 +1,7 @@
 package com.example.nikhil.fuzzflix.constants;
 
+import com.example.nikhil.fuzzflix.BuildConfig;
+
 /**
  * Created by nikhil on 12/01/18.
  */
@@ -70,7 +72,7 @@ public class AppConstants {
     private static final String API_AUTHENTICATION_KEY_PARAM = "api_key";
 
     //    key to authorize api request calls.
-    private static final String API_AUTHENTICATION_KEY_VALUE = "";
+    private static final String API_AUTHENTICATION_KEY_VALUE = BuildConfig.MY_MOVIE_DB_API_KEY;
 
     /* ----------------------------------------END APPEND QUERY PARAMETERS----------------------------------------------------------- */
 

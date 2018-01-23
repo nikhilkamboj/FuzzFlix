@@ -17,6 +17,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+//    Added to support externalising the API keys from code. Refer: https://technobells.com/best-way-to-store-your-api-keys-for-your-android-studio-project-e4b5e8bb7d23
+    buildTypes.each{
+        it.buildConfigField 'String', 'MY_MOVIE_DB_API_KEY', MyMovieDbApiKey
+    }
 }
 
 dependencies {
