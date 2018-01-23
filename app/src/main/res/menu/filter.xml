@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+   creating a menu bar for the purpose of filter
+   attaching it to the Main Activity
+-->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context= ".MainActivity">
+
+    <!--<item-->
+        <!--android:title="@string/popular_button"-->
+        <!--android:id="@+id/popular_menu_item"-->
+        <!--android:orderInCategory="1"-->
+        <!--app:showAsAction="always"-->
+        <!--/>-->
+
+    <!--<item-->
+        <!--android:title="@string/top_rated_button"-->
+        <!--android:id="@+id/top_rated_menu_item"-->
+        <!--android:orderInCategory="1"-->
+        <!--app:showAsAction="always"-->
+        <!--/>-->
+
+    <group android:checkableBehavior="single">
+        <item
+            android:checked="true"
+            android:title="@string/popular_button"
+            android:id="@+id/popular_menu_item"
+            android:orderInCategory="1"
+            app:showAsAction="never"
+            />
+
+        <item
+            android:checked="false"
+            android:title="@string/top_rated_button"
+            android:id="@+id/top_rated_menu_item"
+            android:orderInCategory="2"
+            app:showAsAction="never"
+            />
+
+
+    </group>
+
+</menu>

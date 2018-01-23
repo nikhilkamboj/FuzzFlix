@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">FuzzFlix</string>
+    <string name="filter_menu_name">Filter</string>
+    <string name="popular_button">Popular</string>
+    <string name="top_rated_button">Top Rated</string>
+    
+    <string name="title_movie">Name Of Movie</string>
+    <string name="rating_of_movie">6.4</string>
+    <string name="date_of_release">2016-3-15</string>
+    <string name="overview_of_movie">OverView Of Movie</string>
+</resources>
