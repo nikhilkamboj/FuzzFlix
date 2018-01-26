@@ -49,12 +49,6 @@ public class MainActivity extends AppCompatActivity implements MovieDataAdapter.
 
         mRecyclerView.setLayoutManager(layoutManager);
 
-
-//        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL));
-
-//        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
-
         mRecyclerView.setHasFixedSize(true);
 
         mMovieAdapter = new MovieDataAdapter(this);
@@ -216,11 +210,4 @@ public class MainActivity extends AppCompatActivity implements MovieDataAdapter.
     }
 
 
-    private void setmProgressBarVisible(){
-        mProgressBar.setVisibility(View.VISIBLE);
-    }
-
-    private void setmProgressBarInVisible(){
-        mProgressBar.setVisibility(View.INVISIBLE);
-    }
 }
