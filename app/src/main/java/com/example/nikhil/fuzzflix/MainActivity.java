@@ -22,8 +22,11 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements MovieDataAdapter.ListItemClickListener{
 
+
+
+
 //    default page value for now
-    public int pageIndexValue = 3;
+    public int pageIndexValue = 1;
 
     public MovieDataAdapter mMovieAdapter;
 
@@ -60,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements MovieDataAdapter.
 
         // default loading of popular movie data
         loadMovieData(AppConstants.getPopularFilterValue());
+
 
     }
 

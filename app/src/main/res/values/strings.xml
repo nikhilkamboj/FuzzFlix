@@ -3,6 +3,7 @@
     <string name="filter_menu_name">Filter</string>
     <string name="popular_button">Popular</string>
     <string name="top_rated_button">Top Rated</string>
+    <string name="detail_page_label">Movie Details</string>
     
     <string name="title_movie">Name Of Movie</string>
     <string name="rating_of_movie">6.4</string>

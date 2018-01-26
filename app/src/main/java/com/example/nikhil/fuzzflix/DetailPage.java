@@ -45,8 +45,6 @@ public class DetailPage extends AppCompatActivity {
 
         String movieOverView = intent.getStringExtra(AppConstants.getOverviewAttribute());
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         boolean isBackgroundPoster = true;
 
         URL imageUrl = new NetworkUtils().buildImageUrl(backgroundImagePath,isBackgroundPoster);
@@ -83,12 +81,10 @@ public class DetailPage extends AppCompatActivity {
                     }
                 });
 
-        setTitle(titleOfMovie);
-
-        mTitleTextView.setText("Title :"+titleOfMovie);
+        mTitleTextView.setText(titleOfMovie);
         mReleaseDateTextView.setText(releaseDate);
-        mRatingsTextView.setText("Rating :" + ratingOfMovie);
-        mOverViewTextView.setText("OverView : \n" +movieOverView);
+        mRatingsTextView.setText(ratingOfMovie + "/10");
+        mOverViewTextView.setText(movieOverView);
 
 
     }
