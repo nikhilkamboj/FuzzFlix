@@ -83,7 +83,7 @@ public class DetailPage extends AppCompatActivity {
 
         mTitleTextView.setText(titleOfMovie);
         mReleaseDateTextView.setText(releaseDate);
-        mRatingsTextView.setText(ratingOfMovie + "/10");
+        mRatingsTextView.setText(ratingOfMovie + R.string.base_rating_value);
         mOverViewTextView.setText(movieOverView);
 
 
