@@ -19,7 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".DetailPage"
-            android:parentActivityName=".MainActivity"></activity>
+            android:label="@string/detail_page_label">
+        </activity>
     </application>
 
 </manifest>
