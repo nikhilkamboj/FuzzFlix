@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +26,8 @@ import java.util.ArrayList;
  */
 
 public class PopularFragment extends Fragment implements MovieDataAdapter.ListItemClickListener {
+
+    private static final String TAG = PopularFragment.class.getSimpleName() ;
 
     View mRootView;
 
@@ -50,12 +54,12 @@ public class PopularFragment extends Fragment implements MovieDataAdapter.ListIt
 
         //mProgressBar = (ProgressBar) mRootView.findViewById(R.id.popular_recycler_view);
 
-//        final GridLayoutManager layoutManager
-//                = new GridLayoutManager(this.getActivity(), 2);
-//
-//        mRecyclerView.setLayoutManager(layoutManager);
+        final GridLayoutManager layoutManager
+                = new GridLayoutManager(this.getActivity(), 2);
 
-       // mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(layoutManager);
+
+        mRecyclerView.setHasFixedSize(true);
 
         mRecyclerView.setAdapter(mMovieAdapter);
 
@@ -118,17 +122,26 @@ public class PopularFragment extends Fragment implements MovieDataAdapter.ListIt
 
             try {
 
+                Log.v(TAG, "loading data");
+
                 movieData = networkUtils.getHttpUrlRequest(url);
+
+                Log.v(TAG, "data loaded");
 
                 JsonUtils jsonUtils = new JsonUtils();
 
+                Log.v(TAG, "converting Json to DisplayObject arrayList");
+
                 resultArrayList = jsonUtils.getMovieDataFromJsonString(getContext(), movieData);
+
+                Log.v(TAG, "converted");
 
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
             }
 
+            Log.v(TAG, "returning result to onPost");
             return resultArrayList;
         }
 
@@ -143,6 +156,7 @@ public class PopularFragment extends Fragment implements MovieDataAdapter.ListIt
          */
         @Override
         protected void onPostExecute(ArrayList<DisplayData> resultArrayList) {
+            Log.v(TAG, "calling adapter's setMovieData");
            // mProgressBar.setVisibility(View.INVISIBLE);
             mMovieAdapter.setMovieData(resultArrayList);
         }
