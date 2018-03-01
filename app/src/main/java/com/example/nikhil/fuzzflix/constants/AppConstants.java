@@ -24,7 +24,6 @@ public class AppConstants {
 /* ************************* START image url append path attributes ***************** */
 
 
-
     //    Image Url authority
     private static final String IMAGE_AUTHORITY = "image.tmdb.org";
 
