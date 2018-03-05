@@ -101,6 +101,12 @@ public class AppConstants {
     private static final String OVERVIEW_ATTRIBUTE = "overview";
 
 
+    // movieId attribute
+    private static final String MOVIE_ID = "id";
+
+    // movie vote count attribute
+    private static final String MOVIE_VOTE_COUNT = "vote_count";
+
 
 //   read time for the network call.
     private static final int READ_TIMEOUT = 15000;
@@ -210,5 +216,13 @@ public class AppConstants {
 
     public static String getBackgroundImageSize() {
         return BACKGROUND_IMAGE_SIZE;
+    }
+
+    public static String getMovieId() {
+        return MOVIE_ID;
+    }
+
+    public static String getMovieVoteCount() {
+        return MOVIE_VOTE_COUNT;
     }
 }

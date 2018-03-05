@@ -30,7 +30,8 @@ public class DbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         final String SQL_CREATE_MAIN_TABLE =
                 "CREATE TABLE" + Contract.MainMoviesEntry.TABLE_NAME + "(" +
-                        Contract.MainMoviesEntry.MOVIES_ID                 + "INTEGER PRIMARY KEY" +
+                        Contract.MainMoviesEntry._ID                       + "INTEGER PRIMARY KEY AUTO INCREMENT" +
+                        Contract.MainMoviesEntry.MOVIES_ID                 + "INTEGER UNIQUE NOT NULL" +
                         Contract.MainMoviesEntry.MOVIE_TITLE               + "TEXT NOT NULL" +
                         Contract.MainMoviesEntry.MOVIE_OVERVIEW            + "TEXT NOT NULL" +
                         Contract.MainMoviesEntry.MOVIE_RELEASE_DATE        + "INTEGER NOT NULL" +
@@ -38,9 +39,9 @@ public class DbHelper extends SQLiteOpenHelper {
                         Contract.MainMoviesEntry.MOVIE_VOTE_COUNT          + "INTEGER NOT NULL" +
                         Contract.MainMoviesEntry.MOVIE_FRONT_POSTER_PATH   + "VARCHAR NOT NULL" +
                         Contract.MainMoviesEntry.MOVIE_BACK_POSTER_PATH    + "VARCHAR NOT NULL" +
-                        Contract.MainMoviesEntry.MOVIE_IS_FAVOURITE        + "INTEGER NOT NULL" +
-                        Contract.MainMoviesEntry.MOVIE_IS_POPULAR          + "INTEGER NOT NULL" +
-                        Contract.MainMoviesEntry.MOVIE_IS_TOP_RATED        + "INTEGER NOT NULL);";
+                        Contract.MainMoviesEntry.MOVIE_IS_FAVOURITE        + "INTEGER  DEFAULT 0" +
+                        Contract.MainMoviesEntry.MOVIE_IS_POPULAR          + "INTEGER  DEFAULT 0" +
+                        Contract.MainMoviesEntry.MOVIE_IS_TOP_RATED        + "INTEGER  DEFAULT 0);";
 
 
         final String SQL_CREATE_POPULAR_TABLE =

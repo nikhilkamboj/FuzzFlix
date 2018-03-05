@@ -7,6 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ProgressBar;
 
+import com.example.nikhil.fuzzflix.fragments.FavouriteFragment;
+import com.example.nikhil.fuzzflix.fragments.PopularFragment;
+import com.example.nikhil.fuzzflix.fragments.TopRatedFragment;
+import com.example.nikhil.fuzzflix.fragments.ViewPagerAdapter;
+
 public class MainActivity extends AppCompatActivity{
 
 

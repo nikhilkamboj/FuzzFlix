@@ -1,6 +1,7 @@
 package com.example.nikhil.fuzzflix;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,12 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.example.nikhil.fuzzflix.data.DisplayData;
+import com.example.nikhil.fuzzflix.database.Contract;
 import com.example.nikhil.fuzzflix.utilities.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
 import java.net.URL;
-import java.util.ArrayList;
 
 /**
  * Created by nikhil on 13/01/18.
@@ -29,8 +29,7 @@ import java.util.ArrayList;
 
 public class MovieDataAdapter extends RecyclerView.Adapter<MovieDataAdapter.MovieDataAdapterViewHolder>{
 
-    ArrayList<DisplayData> mMovieDataList;
-
+    Cursor mMovieCursor;
 
     private ListItemClickListener mItemClickListener;
 
@@ -38,7 +37,7 @@ public class MovieDataAdapter extends RecyclerView.Adapter<MovieDataAdapter.Movi
      * handling clicking events for the viewHolder objects.
      */
     public interface ListItemClickListener{
-        void onListItemClick(DisplayData displayDataAtPosition);
+        void onListItemClick(Cursor displayDataAtPosition);
     }
 
 
@@ -85,8 +84,9 @@ public class MovieDataAdapter extends RecyclerView.Adapter<MovieDataAdapter.Movi
      */
     @Override
     public void onBindViewHolder(MovieDataAdapterViewHolder movieHolder, int position) {
+        mMovieCursor.moveToPosition(position);
         boolean isBackgroundPoster = false;
-        String mainPosterPath = mMovieDataList.get(position).getPosterPath();
+        String mainPosterPath = mMovieCursor.getString(mMovieCursor.getColumnIndex(Contract.MainMoviesEntry.MOVIE_FRONT_POSTER_PATH));
         URL imageUrl = new NetworkUtils().buildImageUrl(mainPosterPath,isBackgroundPoster);
         String imageStringUrl = null;
         try{
@@ -109,10 +109,10 @@ public class MovieDataAdapter extends RecyclerView.Adapter<MovieDataAdapter.Movi
      */
     @Override
     public int getItemCount() {
-        if(mMovieDataList == null){
+        if(mMovieCursor == null){
             return 0;
         }
-        return mMovieDataList.size();
+        return mMovieCursor.getCount();
     }
 
 
@@ -138,19 +138,26 @@ public class MovieDataAdapter extends RecyclerView.Adapter<MovieDataAdapter.Movi
         public void onClick(View v) {
             int itemPosition = getAdapterPosition();
 
-            DisplayData dataAtClickedPosition = mMovieDataList.get(itemPosition);
+            // through this position value we find out the cursor and then the other values
+            mMovieCursor.moveToPosition(itemPosition);
+            Cursor dataAtClickedPosition = mMovieCursor;
 
             mItemClickListener.onListItemClick(dataAtClickedPosition);
         }
     }
 
-    /**
-     * sets the data and notify the change
-     *
-     * @param movieData this is the ArrayList of objects whose data would be displayed
-     */
-    public void setMovieData(ArrayList<DisplayData> movieData) {
-        mMovieDataList = movieData;
+//    /**
+//     * sets the data and notify the change
+//     *
+//     * @param movieData this is the ArrayList of objects whose data would be displayed
+//     */
+//    public void setMovieData(ArrayList<DisplayData> movieData) {
+//        mMovieDataList = movieData;
+//        notifyDataSetChanged();
+//    }
+
+    public void swapCursor(Cursor cursor) {
+        mMovieCursor = cursor;
         notifyDataSetChanged();
     }
 }
