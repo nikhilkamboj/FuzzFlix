@@ -28,6 +28,10 @@ public class DisplayData {
 
     private String overView;
 
+    private String movieId;
+
+    private String movieVoteCount;
+
     public String getTitleOfMovie() {
         return titleOfMovie;
     }
@@ -74,5 +78,21 @@ public class DisplayData {
 
     public void setOverView(String overView) {
         this.overView = overView;
+    }
+
+    public String getMovieId() {
+        return movieId;
+    }
+
+    public void setMovieId(String movieId) {
+        this.movieId = movieId;
+    }
+
+    public String getMovieVoteCount() {
+        return movieVoteCount;
+    }
+
+    public void setMovieVoteCount(String movieVoteCount) {
+        this.movieVoteCount = movieVoteCount;
     }
 }

@@ -1,11 +1,18 @@
-package com.example.nikhil.fuzzflix;
+package com.example.nikhil.fuzzflix.fragments;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,8 +20,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.nikhil.fuzzflix.DetailPage;
+import com.example.nikhil.fuzzflix.MovieDataAdapter;
+import com.example.nikhil.fuzzflix.R;
 import com.example.nikhil.fuzzflix.constants.AppConstants;
 import com.example.nikhil.fuzzflix.data.DisplayData;
+import com.example.nikhil.fuzzflix.database.Contract;
 import com.example.nikhil.fuzzflix.utilities.JsonUtils;
 import com.example.nikhil.fuzzflix.utilities.NetworkUtils;
 
@@ -25,9 +36,27 @@ import java.util.ArrayList;
  * Created by nikhil on 26/02/18.
  */
 
-public class PopularFragment extends Fragment implements MovieDataAdapter.ListItemClickListener {
+public class PopularFragment extends Fragment implements MovieDataAdapter.ListItemClickListener, LoaderManager.LoaderCallbacks<Cursor>{
+
+
+
+    private static final String[] projection = {
+            Contract.MainMoviesEntry.MOVIES_ID,
+            Contract.MainMoviesEntry.MOVIE_TITLE,
+            Contract.MainMoviesEntry.MOVIE_OVERVIEW,
+            Contract.MainMoviesEntry.MOVIE_FRONT_POSTER_PATH,
+            Contract.MainMoviesEntry.MOVIE_BACK_POSTER_PATH,
+            Contract.MainMoviesEntry.MOVIE_VOTE_AVERAGE,
+            Contract.MainMoviesEntry.MOVIE_VOTE_COUNT
+    };
+
 
     private static final String TAG = PopularFragment.class.getSimpleName() ;
+
+    /**
+     * this for the type of loader, if there are different loading options
+     */
+    private static final int ID_POPULAR_LOADER = 44;
 
     View mRootView;
 
@@ -158,28 +187,91 @@ public class PopularFragment extends Fragment implements MovieDataAdapter.ListIt
         protected void onPostExecute(ArrayList<DisplayData> resultArrayList) {
             Log.v(TAG, "calling adapter's setMovieData");
            // mProgressBar.setVisibility(View.INVISIBLE);
-            mMovieAdapter.setMovieData(resultArrayList);
+            //bulkInsert(resultArrayList);
+            //mMovieAdapter.setMovieData(resultArrayList);
         }
     }
+
+    /**
+     * bulk insert method for db
+     */
+    private void bulkInsert(ArrayList<DisplayData> resultArrayList) {
+        ContentValues[] contentValues =  new ContentValues[resultArrayList.size()];
+        for (int i = 0; i< contentValues.length; i++) {
+            ContentValues cv = new ContentValues();
+            cv.put(Contract.MainMoviesEntry.MOVIES_ID,resultArrayList.get(i).getMovieId());
+            cv.put(Contract.MainMoviesEntry.MOVIE_TITLE,resultArrayList.get(i).getTitleOfMovie());
+            cv.put(Contract.MainMoviesEntry.MOVIE_OVERVIEW,resultArrayList.get(i).getOverView());
+            cv.put(Contract.MainMoviesEntry.MOVIE_RELEASE_DATE,resultArrayList.get(i).getDateOfRelease());
+            cv.put(Contract.MainMoviesEntry.MOVIE_VOTE_AVERAGE,resultArrayList.get(i).getRatingOfMovie());
+            cv.put(Contract.MainMoviesEntry.MOVIE_VOTE_COUNT,resultArrayList.get(i).getMovieVoteCount());
+            cv.put(Contract.MainMoviesEntry.MOVIE_FRONT_POSTER_PATH,resultArrayList.get(i).getPosterPath());
+            cv.put(Contract.MainMoviesEntry.MOVIE_BACK_POSTER_PATH,resultArrayList.get(i).getBackGroundPosterPath());
+            cv.put(Contract.MainMoviesEntry.MOVIE_IS_POPULAR,"1");
+
+            contentValues[i] = cv;
+        }
+
+        ContentResolver contentResolver = getContext().getContentResolver();
+        contentResolver.bulkInsert(Contract.MainMoviesEntry.CONTENT_URI,contentValues);
+    }
+
+
+
+
+
+
+
 
     /**
      * implemented method for the interface {@link com.example.nikhil.fuzzflix.MovieDataAdapter.ListItemClickListener}
      *
      *this overridden method would get executed upon a click to viewHolder and redirects to the DetailPage Activity
      *
-     * @param displayDataAtPosition  DisplayData object at that particular position
+     * @param cursorAtPosition  DisplayData object at that particular position
      */
     @Override
-    public void onListItemClick(DisplayData displayDataAtPosition) {
+    public void onListItemClick(Cursor cursorAtPosition) {
         Intent intent = new Intent(getContext(), DetailPage.class);
 
-        intent.putExtra(AppConstants.getTitleAttribute(),displayDataAtPosition.getTitleOfMovie());
-        intent.putExtra(AppConstants.getReleaseDateAttribute(),displayDataAtPosition.getDateOfRelease());
-        intent.putExtra(AppConstants.getBackgroundPosterPathAttribute(),displayDataAtPosition.getBackGroundPosterPath());
-        intent.putExtra(AppConstants.getRatingAttribute(),displayDataAtPosition.getRatingOfMovie());
-        intent.putExtra(AppConstants.getOverviewAttribute(),displayDataAtPosition.getOverView());
+        intent.putExtra(AppConstants.getTitleAttribute(),cursorAtPosition.getColumnIndex(Contract.MainMoviesEntry.MOVIE_TITLE));
+        intent.putExtra(AppConstants.getReleaseDateAttribute(),cursorAtPosition.getColumnIndex(Contract.MainMoviesEntry.MOVIE_RELEASE_DATE));
+        intent.putExtra(AppConstants.getBackgroundPosterPathAttribute(),cursorAtPosition.getColumnIndex(Contract.MainMoviesEntry.MOVIE_BACK_POSTER_PATH));
+        intent.putExtra(AppConstants.getRatingAttribute(),cursorAtPosition.getColumnIndex(Contract.MainMoviesEntry.MOVIE_VOTE_AVERAGE));
+        intent.putExtra(AppConstants.getOverviewAttribute(),cursorAtPosition.getColumnIndex(Contract.MainMoviesEntry.MOVIE_OVERVIEW));
 
         startActivity(intent);
     }
 
+    // creating a cursor loader
+
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        switch (id) {
+            case ID_POPULAR_LOADER:
+                Uri mPopularUri = Contract.MainMoviesEntry.CONTENT_URI;
+                String selection = Contract.MainMoviesEntry.MOVIE_IS_POPULAR + "=?";
+                String[] selectionArgs = {"1"};
+
+                return new CursorLoader(getContext(),
+                        mPopularUri,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null);
+        }
+        return null;
+    }
+
+    // giving cursor to the recyclerView
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        mMovieAdapter.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
+    }
 }

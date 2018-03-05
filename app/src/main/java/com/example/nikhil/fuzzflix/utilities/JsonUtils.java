@@ -67,6 +67,8 @@ public class JsonUtils {
                 dataObject.setBackGroundPosterPath(resultArrayObjects.getString(AppConstants.getBackgroundPosterPathAttribute()));
                 dataObject.setRatingOfMovie(resultArrayObjects.getString(AppConstants.getRatingAttribute()));
                 dataObject.setOverView(resultArrayObjects.getString(AppConstants.getOverviewAttribute()));
+                dataObject.setMovieId(resultArrayObjects.getString(AppConstants.getMovieId()));
+                dataObject.setMovieId(resultArrayObjects.getString(AppConstants.getMovieVoteCount()));
 
                 dataObjectsArrayList.add(dataObject);
             }
