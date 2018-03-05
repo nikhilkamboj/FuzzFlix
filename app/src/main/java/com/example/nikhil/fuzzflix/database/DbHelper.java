@@ -10,14 +10,46 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DbHelper extends SQLiteOpenHelper {
 
+    /**
+     * name of the database
+     */
+    public static final String DATABASE_NAME = "movies.db";
 
-    public DbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
+    /**
+     * database version
+     */
+    public static final int DATABASE_VERSION = 1;
+
+    public DbHelper(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
+
+    // setting the primary key and foreign key right
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        final String SQL_CREATE_MAIN_TABLE =
+                "CREATE TABLE" + Contract.MainMoviesEntry.TABLE_NAME + "(" +
+                        Contract.MainMoviesEntry.MOVIES_ID                 + "INTEGER PRIMARY KEY" +
+                        Contract.MainMoviesEntry.MOVIE_TITLE               + "TEXT NOT NULL" +
+                        Contract.MainMoviesEntry.MOVIE_OVERVIEW            + "TEXT NOT NULL" +
+                        Contract.MainMoviesEntry.MOVIE_RELEASE_DATE        + "INTEGER NOT NULL" +
+                        Contract.MainMoviesEntry.MOVIE_VOTE_AVERAGE        + "INTEGER NOT NULL" +
+                        Contract.MainMoviesEntry.MOVIE_VOTE_COUNT          + "INTEGER NOT NULL" +
+                        Contract.MainMoviesEntry.MOVIE_FRONT_POSTER_PATH   + "VARCHAR NOT NULL" +
+                        Contract.MainMoviesEntry.MOVIE_BACK_POSTER_PATH    + "VARCHAR NOT NULL" +
+                        Contract.MainMoviesEntry.MOVIE_IS_FAVOURITE        + "INTEGER NOT NULL" +
+                        Contract.MainMoviesEntry.MOVIE_IS_POPULAR          + "INTEGER NOT NULL" +
+                        Contract.MainMoviesEntry.MOVIE_IS_TOP_RATED        + "INTEGER NOT NULL);";
 
+
+        final String SQL_CREATE_POPULAR_TABLE =
+                "CREATE TABLE" + Contract.PopularMoviesEntry.TABLE_NAME + "(" +
+                        Contract.PopularMoviesEntry.MOVIES_ID + "INTEGER NOT NULL);";
+
+        final String SQL_CREATE_TOP_RATED_TABLE =
+                "CREATE TABLE" + Contract.TopRatedMoviesEntry.TABLE_NAME + "(" +
+                        Contract.PopularMoviesEntry.MOVIES_ID + "INTEGER NOT NULL);";
     }
 
     @Override
