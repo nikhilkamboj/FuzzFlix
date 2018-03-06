@@ -2,19 +2,44 @@ package com.example.nikhil.fuzzflix.sync;
 
 import android.app.job.JobParameters;
 import android.app.job.JobService;
+import android.content.Context;
+import android.os.AsyncTask;
 
 /**
  * Created by nikhil on 06/03/18.
  */
 
 public class FlixFirebaseJobService extends JobService {
+
+    private AsyncTask<Void, Void,Void> mFetchMovieTask;
+
     @Override
-    public boolean onStartJob(JobParameters params) {
+    public boolean onStartJob(final JobParameters jobParameters) {
+
+        mFetchMovieTask = new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                Context context = getApplicationContext();
+                FlixSyncTask.syncMovie(context);
+                jobFinished(jobParameters, false);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                jobFinished(jobParameters,false);
+            }
+        };
+
+        mFetchMovieTask.execute();
         return false;
     }
 
     @Override
     public boolean onStopJob(JobParameters params) {
-        return false;
+        if (mFetchMovieTask == null) {
+            mFetchMovieTask.cancel(true);
+        }
+        return true;
     }
 }
