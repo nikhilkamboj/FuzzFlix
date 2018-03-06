@@ -1,15 +1,15 @@
 package com.example.nikhil.fuzzflix.utilities;
 
+import android.content.ContentValues;
 import android.content.Context;
 
 import com.example.nikhil.fuzzflix.constants.AppConstants;
 import com.example.nikhil.fuzzflix.data.DisplayData;
+import com.example.nikhil.fuzzflix.database.Contract;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 /**
  * Created by nikhil on 11/01/18.
@@ -42,15 +42,16 @@ public class JsonUtils {
      *
      *@return ArrayList<DisplayDat> returns an arrayList of objects that contains required info for displaying on-screen.
      */
-    public ArrayList<DisplayData> getMovieDataFromJsonString(Context context, String jsonObjectString){
+    public ContentValues[] getMovieDataFromJsonString(Context context, String jsonObjectString, String filterFlag){
 
         DisplayData dataObject;
 
-        ArrayList<DisplayData> dataObjectsArrayList = new ArrayList<DisplayData>();
+        ContentValues[] contentValuesArrayList = null;
 
         try {
             JSONObject jsonObject = new JSONObject(jsonObjectString);
             JSONArray resultArray = jsonObject.getJSONArray(AppConstants.getResultArrayAttribute());
+            contentValuesArrayList = new ContentValues[resultArray.length()];
 
             if(resultArray.length() == 0){
                 return null;
@@ -58,25 +59,33 @@ public class JsonUtils {
 
 
             for(int i = 0; i < resultArray.length(); i++){
+                ContentValues cv = new ContentValues();
                 dataObject = new DisplayData();
                 JSONObject resultArrayObjects = resultArray.getJSONObject(i);
 
-                dataObject.setTitleOfMovie(resultArrayObjects.getString(AppConstants.getTitleAttribute()));
-                dataObject.setDateOfRelease(resultArrayObjects.getString(AppConstants.getReleaseDateAttribute()));
-                dataObject.setPosterPath(resultArrayObjects.getString(AppConstants.getMainPosterPathAttribute()));
-                dataObject.setBackGroundPosterPath(resultArrayObjects.getString(AppConstants.getBackgroundPosterPathAttribute()));
-                dataObject.setRatingOfMovie(resultArrayObjects.getString(AppConstants.getRatingAttribute()));
-                dataObject.setOverView(resultArrayObjects.getString(AppConstants.getOverviewAttribute()));
-                dataObject.setMovieId(resultArrayObjects.getString(AppConstants.getMovieId()));
-                dataObject.setMovieId(resultArrayObjects.getString(AppConstants.getMovieVoteCount()));
+                cv.put(Contract.MainMoviesEntry.MOVIES_ID, resultArrayObjects.getString(AppConstants.getMovieId()));
+                cv.put(Contract.MainMoviesEntry.MOVIE_TITLE,resultArrayObjects.getString(AppConstants.getTitleAttribute()));
+                cv.put(Contract.MainMoviesEntry.MOVIE_OVERVIEW,resultArrayObjects.getString(AppConstants.getOverviewAttribute()));
+                cv.put(Contract.MainMoviesEntry.MOVIE_RELEASE_DATE,resultArrayObjects.getString(AppConstants.getReleaseDateAttribute()));
+                cv.put(Contract.MainMoviesEntry.MOVIE_VOTE_AVERAGE,resultArrayObjects.getString(AppConstants.getRatingAttribute()));
+                cv.put(Contract.MainMoviesEntry.MOVIE_VOTE_COUNT,resultArrayObjects.getString(AppConstants.getMovieVoteCount()));
+                cv.put(Contract.MainMoviesEntry.MOVIE_FRONT_POSTER_PATH,resultArrayObjects.getString(AppConstants.getMainPosterPathAttribute()));
+                cv.put(Contract.MainMoviesEntry.MOVIE_BACK_POSTER_PATH,resultArrayObjects.getString(AppConstants.getBackgroundPosterPathAttribute()));
 
-                dataObjectsArrayList.add(dataObject);
+                // handling data fillup for both api's
+                if (filterFlag == AppConstants.getPopularFilterFlag()) {
+                    cv.put(Contract.MainMoviesEntry.MOVIE_IS_POPULAR,"1");
+                } else if (filterFlag == AppConstants.getTopRatedFlag()) {
+                    cv.put(Contract.MainMoviesEntry.MOVIE_IS_TOP_RATED,"1");
+                }
+
+                contentValuesArrayList[i] = cv;
             }
         }catch (JSONException e){
             e.printStackTrace();
         }
 
-        return dataObjectsArrayList;
+        return contentValuesArrayList;
     }
 
 
