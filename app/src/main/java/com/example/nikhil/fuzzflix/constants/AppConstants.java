@@ -118,6 +118,16 @@ public class AppConstants {
     private static final String CONNECTION_TYPE = "GET";
 
 
+
+    /**************************************************************************************************/
+
+    private static final String POPULAR_FILTER_FLAG = "popular_val";
+
+    private static final String TOP_RATED_FLAG = "top_rated_val";
+
+
+    /**************************************************************************************************/
+
     /* **************************************END****************************************************** */
 
     public static String getMainPosterPathAttribute() {
@@ -224,5 +234,14 @@ public class AppConstants {
 
     public static String getMovieVoteCount() {
         return MOVIE_VOTE_COUNT;
+    }
+
+
+    public static String getPopularFilterFlag() {
+        return POPULAR_FILTER_FLAG;
+    }
+
+    public static String getTopRatedFlag() {
+        return TOP_RATED_FLAG;
     }
 }
