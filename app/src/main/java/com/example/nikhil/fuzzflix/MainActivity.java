@@ -11,6 +11,7 @@ import com.example.nikhil.fuzzflix.fragments.FavouriteFragment;
 import com.example.nikhil.fuzzflix.fragments.PopularFragment;
 import com.example.nikhil.fuzzflix.fragments.TopRatedFragment;
 import com.example.nikhil.fuzzflix.fragments.ViewPagerAdapter;
+import com.example.nikhil.fuzzflix.sync.FlixSyncTask;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -44,6 +45,8 @@ public class MainActivity extends AppCompatActivity{
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
+
+        FlixSyncTask.syncMovie(this);
 
     }
 
