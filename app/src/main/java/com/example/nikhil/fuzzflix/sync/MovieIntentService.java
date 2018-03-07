@@ -21,6 +21,7 @@ public class MovieIntentService extends IntentService {
      */
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
+
         FlixSyncTask.syncMovie(this);
     }
 }

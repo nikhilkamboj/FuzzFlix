@@ -109,7 +109,8 @@ public class MoviesProvider extends ContentProvider {
                 int insertedRow = 0;
                 try{
                     for (ContentValues cv: values) {
-                        long _id = db.insert(Contract.MainMoviesEntry.TABLE_NAME,null,cv);
+//                        long _id = db.insert(Contract.MainMoviesEntry.TABLE_NAME,null,cv);
+                        long _id = db.insertWithOnConflict(Contract.MainMoviesEntry.TABLE_NAME,null,cv, SQLiteDatabase.CONFLICT_IGNORE);
                         if (_id != -1) {
                             insertedRow++;
                         }
