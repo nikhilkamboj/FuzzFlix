@@ -3,6 +3,8 @@ package com.example.nikhil.fuzzflix.sync;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.net.Uri;
+import android.util.Log;
 
 import com.example.nikhil.fuzzflix.constants.AppConstants;
 import com.example.nikhil.fuzzflix.database.Contract;
@@ -20,10 +22,27 @@ import java.net.URL;
 
 public class FlixSyncTask {
 
+    private static final String TAG = FlixSyncTask.class.getSimpleName();
+
 
     synchronized public static void syncMovie(Context context) {
         URL networkUrl;
         ContentValues[] contentValuesArray;
+
+
+        Log.v(TAG,"into sync deleting existng db");
+
+        /**
+         * first deleting the required db Data and then adding it again
+         */
+        Uri mainUri = Contract.MainMoviesEntry.CONTENT_URI;
+        String selection = Contract.MainMoviesEntry.MOVIE_IS_FAVOURITE + "=?";
+        String[] selectionArgs = {"0"};
+        context.getContentResolver().delete(mainUri,selection,selectionArgs);
+
+        Log.v(TAG,"db deleted");
+
+
         for (int i = 0; i <= 1; i++) {
             try {
                 // getting the api url
@@ -46,6 +65,8 @@ public class FlixSyncTask {
 
                     // first deletes all data except the one with isFavourite as 1 and then fill up all the data
 
+
+                    Log.v(TAG,"bulk insert of part"+ i);
                     // bulk insert the data to the table
                     movieContentResolver.bulkInsert(Contract.MainMoviesEntry.CONTENT_URI, contentValuesArray);
 
@@ -55,6 +76,8 @@ public class FlixSyncTask {
                 e.printStackTrace();
             }
         }
+        // check again out here about the cursor i.e again a query command
+        Log.v(TAG,"bulk insertion done");
     }
 
 

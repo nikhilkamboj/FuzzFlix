@@ -12,6 +12,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,6 +84,7 @@ public class PopularFragment extends Fragment implements MovieDataAdapter.ListIt
         mRecyclerView.setAdapter(mMovieAdapter);
 
         //loadMovieData(AppConstants.getPopularFilterValue());
+        getLoaderManager().initLoader(ID_POPULAR_LOADER,null,this);
 
         return mRootView;
     }
@@ -257,6 +259,8 @@ public class PopularFragment extends Fragment implements MovieDataAdapter.ListIt
     // giving cursor to the recyclerView
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        // cursor swapping taking place
+        Log.v(TAG,"cursor swapping taking place ");
         mMovieAdapter.swapCursor(data);
     }
 

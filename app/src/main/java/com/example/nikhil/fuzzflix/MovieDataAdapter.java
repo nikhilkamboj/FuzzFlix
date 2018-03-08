@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,8 @@ import java.net.URL;
  */
 
 public class MovieDataAdapter extends RecyclerView.Adapter<MovieDataAdapter.MovieDataAdapterViewHolder>{
+
+    private static final String TAG = MovieDataAdapter.class.getSimpleName();
 
     Cursor mMovieCursor;
 
@@ -157,7 +160,9 @@ public class MovieDataAdapter extends RecyclerView.Adapter<MovieDataAdapter.Movi
 //    }
 
     public void swapCursor(Cursor cursor) {
+        Log.v(TAG,"cursor in recyclerView");
         mMovieCursor = cursor;
+        Log.v(TAG,"notifying data set changed");
         notifyDataSetChanged();
     }
 }
