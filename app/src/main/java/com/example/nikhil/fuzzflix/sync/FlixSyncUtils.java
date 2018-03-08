@@ -102,6 +102,7 @@ public class FlixSyncUtils {
 
     public static void startImmediateSync(final Context context) {
         // starting intent service
+        Log.v(MOVIE_SYNC_TAG, "starting intent service");
         Intent immediateIntentService = new Intent(context,MovieIntentService.class);
         context.startService(immediateIntentService);
     }

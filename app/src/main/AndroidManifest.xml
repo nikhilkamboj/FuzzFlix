@@ -22,12 +22,22 @@
             android:label="@string/detail_page_label">
         </activity>
 
+        <service
+            android:name=".sync.MovieIntentService"
+            android:exported="false"/>
+
         <service android:name=".sync.FlixFirebaseJobService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE"/>
             </intent-filter>
         </service>
+
+        <!--add provider to the manifest and check all other required docs-->
+        <provider
+            android:authorities="com.example.nikhil.fuzzflix"
+            android:name="com.example.nikhil.fuzzflix.database.MoviesProvider"
+            android:exported="false"/>
 
     </application>
 

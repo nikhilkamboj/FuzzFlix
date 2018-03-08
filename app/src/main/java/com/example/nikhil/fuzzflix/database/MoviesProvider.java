@@ -91,7 +91,22 @@ public class MoviesProvider extends ContentProvider {
 
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
-        return 0;
+        final SQLiteDatabase database = mMoviesOpenHelper.getWritableDatabase();
+
+        switch (sUriMatcher.match(uri)) {
+            case CODE_MAIN_MOVIES:
+                database.beginTransaction();
+                int deletedRows = 0;
+                try {
+                    deletedRows = database.delete(Contract.MainMoviesEntry.TABLE_NAME,selection,selectionArgs);
+                }
+                finally {
+                    database.endTransaction();
+                }
+                return deletedRows;
+            default:
+                return 0;
+        }
     }
 
     @Override
