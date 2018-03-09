@@ -40,7 +40,7 @@ public class MovieDataAdapter extends RecyclerView.Adapter<MovieDataAdapter.Movi
      * handling clicking events for the viewHolder objects.
      */
     public interface ListItemClickListener{
-        void onListItemClick(Cursor displayDataAtPosition);
+        void onListItemClick(int movie_id);
     }
 
 
@@ -94,6 +94,7 @@ public class MovieDataAdapter extends RecyclerView.Adapter<MovieDataAdapter.Movi
         String imageStringUrl = null;
         try{
             imageStringUrl = java.net.URLDecoder.decode(imageUrl.toString(), "UTF-8");
+            Log.v(TAG,imageStringUrl);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -141,11 +142,11 @@ public class MovieDataAdapter extends RecyclerView.Adapter<MovieDataAdapter.Movi
         public void onClick(View v) {
             int itemPosition = getAdapterPosition();
 
-            // through this position value we find out the cursor and then the other values
             mMovieCursor.moveToPosition(itemPosition);
-            Cursor dataAtClickedPosition = mMovieCursor;
 
-            mItemClickListener.onListItemClick(dataAtClickedPosition);
+            int moive_Id = mMovieCursor.getInt(mMovieCursor.getColumnIndex(Contract.MainMoviesEntry.MOVIES_ID));
+            // changing here argument to only position
+            mItemClickListener.onListItemClick(moive_Id);
         }
     }
 

@@ -18,7 +18,8 @@ public class MoviesProvider extends ContentProvider {
     /**
      * related to particular data such as popular, top_rated ,favourite etc hence not givivng value 100
      */
-    public static final int CODE_MAIN_MOVIES = 101;
+    public static final int CODE_MAIN_MOVIES = 100;
+    public static final int CODE_MAIN_MOVIES_ID = 101;
 
     public static final UriMatcher sUriMatcher = buildUriMatcher();
     private DbHelper mMoviesOpenHelper;
@@ -42,6 +43,8 @@ public class MoviesProvider extends ContentProvider {
          */
         // main table uri code
         uriMatcher.addURI(authority,Contract.MAIN_MOVIES_PATH,CODE_MAIN_MOVIES);
+        // UriMatcher for a particular row as per its Movie_ID.
+        uriMatcher.addURI(authority,Contract.MAIN_MOVIES_PATH + Contract.MainMoviesEntry.MOVIES_ID + "=?",CODE_MAIN_MOVIES_ID);
 
         return uriMatcher;
     }
@@ -65,6 +68,18 @@ public class MoviesProvider extends ContentProvider {
                         projection,
                         selection,
                         selectionArgs,
+                        null,
+                        null,
+                        null
+                );
+                break;
+            // requires some more thought
+            case CODE_MAIN_MOVIES_ID:
+                cursor = mMoviesOpenHelper.getReadableDatabase().query(
+                        Contract.MainMoviesEntry.TABLE_NAME,
+                        projection,
+                        null,
+                        null,
                         null,
                         null,
                         null

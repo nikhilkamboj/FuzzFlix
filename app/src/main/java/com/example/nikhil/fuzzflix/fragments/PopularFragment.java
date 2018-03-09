@@ -90,151 +90,17 @@ public class PopularFragment extends Fragment implements MovieDataAdapter.ListIt
     }
 
 
-//    /**
-//     * this method calls AsyncTask to start execution by sending them selectedFilter which is filter for
-//     * popular or top_rated movie. this sends one of the two to the doInBackground() for further executions.
-//     *
-//     * @param selectedFilter type of data user wats to receive parameter (popular or top_rated)
-//     */
-//    private void loadMovieData(String selectedFilter){
-//        if(selectedFilter == AppConstants.getPopularFilterValue()){
-//           // mProgressBar.setVisibility(View.VISIBLE);
-//            new FetchMovieData().execute(AppConstants.getPopularFilterValue());
-//        }else{
-//            //mProgressBar.setVisibility(View.VISIBLE);
-//            new FetchMovieData().execute(AppConstants.getTopRatedFilterValue());
-//        }
-//    }
-//
-//
-//    /**
-//     * lets the system execute network calls in a another thread, therefore helps in achieving a better UI
-//     *
-//     * {@link FetchMovieData} is inner class extends {@link AsyncTask}
-//     *
-//     * overrides doInBackground and onPostExecute
-//     *
-//     * RecyclerView(ADAPTER) created with xml file for lists, some tweaks into JSON class done, refactored the code for cooments
-//     */
-//    public class FetchMovieData extends AsyncTask<String, Void, ArrayList<DisplayData>> {
-//
-//        /**
-//         * this method helps to set a targeted URL and also a network connection to that URL using
-//         * NetworkUtils methods such as buildBaseUrl() and getHttpUrlRequest().
-//         *
-//         * @param params a String array that has values that helps creating the url for network call
-//         * @return a ArrayList<DisplayData> to the onPostExecute method that needs to be displayed on-screen
-//         */
-//        @Override
-//        protected ArrayList<DisplayData> doInBackground(String... params) {
-//            if(params.length == 0){
-//                return null;
-//            }
-//
-//            String filterType = params[0];
-//
-//            ArrayList<DisplayData> resultArrayList = null;
-//
-//            NetworkUtils networkUtils = new NetworkUtils();
-//
-//            URL url = networkUtils.buildBaseUrl(filterType,1);
-//
-//            String movieData = null;
-//
-//            try {
-//
-//                Log.v(TAG, "loading data");
-//
-//                movieData = networkUtils.getHttpUrlRequest(url);
-//
-//                Log.v(TAG, "data loaded");
-//
-//                JsonUtils jsonUtils = new JsonUtils();
-//
-//                Log.v(TAG, "converting Json to DisplayObject arrayList");
-//
-//                resultArrayList = jsonUtils.getMovieDataFromJsonString(getContext(), movieData);
-//
-//                Log.v(TAG, "converted");
-//
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                return null;
-//            }
-//
-//            Log.v(TAG, "returning result to onPost");
-//            return resultArrayList;
-//        }
-//
-//
-//        /**
-//         * this method merges the backward thread to the main/UI thread and therefore lets the data received to shown at
-//         * the UI.
-//         * here it calls the setMovieData() of the which pings MovieAdapter which starts creating viewHolder once it receives
-//         * data to be shown.
-//         *
-//         * @param resultArrayList this the arrayList of the DisplayData objects
-//         */
-//        @Override
-//        protected void onPostExecute(ArrayList<DisplayData> resultArrayList) {
-//            Log.v(TAG, "calling adapter's setMovieData");
-//           // mProgressBar.setVisibility(View.INVISIBLE);
-//            //bulkInsert(resultArrayList);
-//            //mMovieAdapter.setMovieData(resultArrayList);
-//        }
-//    }
-//
-//    /**
-//     * bulk insert method for db
-//     */
-//    private void bulkInsert(ArrayList<DisplayData> resultArrayList) {
-//        ContentValues[] contentValues =  new ContentValues[resultArrayList.size()];
-//        for (int i = 0; i< contentValues.length; i++) {
-//            ContentValues cv = new ContentValues();
-//            cv.put(Contract.MainMoviesEntry.MOVIES_ID,resultArrayList.get(i).getMovieId());
-//            cv.put(Contract.MainMoviesEntry.MOVIE_TITLE,resultArrayList.get(i).getTitleOfMovie());
-//            cv.put(Contract.MainMoviesEntry.MOVIE_OVERVIEW,resultArrayList.get(i).getOverView());
-//            cv.put(Contract.MainMoviesEntry.MOVIE_RELEASE_DATE,resultArrayList.get(i).getDateOfRelease());
-//            cv.put(Contract.MainMoviesEntry.MOVIE_VOTE_AVERAGE,resultArrayList.get(i).getRatingOfMovie());
-//            cv.put(Contract.MainMoviesEntry.MOVIE_VOTE_COUNT,resultArrayList.get(i).getMovieVoteCount());
-//            cv.put(Contract.MainMoviesEntry.MOVIE_FRONT_POSTER_PATH,resultArrayList.get(i).getPosterPath());
-//            cv.put(Contract.MainMoviesEntry.MOVIE_BACK_POSTER_PATH,resultArrayList.get(i).getBackGroundPosterPath());
-//            cv.put(Contract.MainMoviesEntry.MOVIE_IS_POPULAR,"1");
-//
-//            contentValues[i] = cv;
-//        }
-//
-//        ContentResolver contentResolver = getContext().getContentResolver();
-//        contentResolver.bulkInsert(Contract.MainMoviesEntry.CONTENT_URI,contentValues);
-//    }
-
-
-
-
-
-
-
-
-    /**
-     * implemented method for the interface {@link com.example.nikhil.fuzzflix.MovieDataAdapter.ListItemClickListener}
-     *
-     *this overridden method would get executed upon a click to viewHolder and redirects to the DetailPage Activity
-     *
-     * @param cursorAtPosition  DisplayData object at that particular position
-     */
     @Override
-    public void onListItemClick(Cursor cursorAtPosition) {
+    public void onListItemClick(int movie_id) {
         Intent intent = new Intent(getContext(), DetailPage.class);
 
-        intent.putExtra(AppConstants.getTitleAttribute(),cursorAtPosition.getColumnIndex(Contract.MainMoviesEntry.MOVIE_TITLE));
-        intent.putExtra(AppConstants.getReleaseDateAttribute(),cursorAtPosition.getColumnIndex(Contract.MainMoviesEntry.MOVIE_RELEASE_DATE));
-        intent.putExtra(AppConstants.getBackgroundPosterPathAttribute(),cursorAtPosition.getColumnIndex(Contract.MainMoviesEntry.MOVIE_BACK_POSTER_PATH));
-        intent.putExtra(AppConstants.getRatingAttribute(),cursorAtPosition.getColumnIndex(Contract.MainMoviesEntry.MOVIE_VOTE_AVERAGE));
-        intent.putExtra(AppConstants.getOverviewAttribute(),cursorAtPosition.getColumnIndex(Contract.MainMoviesEntry.MOVIE_OVERVIEW));
+
+
+        // sending the Mid would work as position might even change in due to data agregation of twp apis
+        intent.putExtra(AppConstants.getKeyMovieId(),movie_id);
 
         startActivity(intent);
     }
-
     // creating a cursor loader
 
 
