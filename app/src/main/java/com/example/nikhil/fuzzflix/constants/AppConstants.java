@@ -34,7 +34,7 @@ public class AppConstants {
     private static final String P = "p";
 
     //    size of the poster is defined here, using w500 a medium size poster(image path appender-3)
-    private static final String FOREGROUND_IMAGE_SIZE = "w600";
+    private static final String FOREGROUND_IMAGE_SIZE = "w500";
 
     private static final String BACKGROUND_IMAGE_SIZE = "w1000";
 
@@ -125,7 +125,8 @@ public class AppConstants {
 
     private static final String TOP_RATED_FLAG = "top_rated_val";
 
-
+    // for key value pair to send Movie_id from popular and TopRated to detail page easily
+    private static final String KEY_MOVIE_ID = "movie_id";
     /**************************************************************************************************/
 
     /* **************************************END****************************************************** */
@@ -243,5 +244,9 @@ public class AppConstants {
 
     public static String getTopRatedFlag() {
         return TOP_RATED_FLAG;
+    }
+
+    public static String getKeyMovieId() {
+        return KEY_MOVIE_ID;
     }
 }
