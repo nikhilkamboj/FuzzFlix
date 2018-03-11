@@ -33,6 +33,7 @@ public class DetailPage extends AppCompatActivity implements
             Contract.MainMoviesEntry.MOVIES_ID,
             Contract.MainMoviesEntry.MOVIE_TITLE,
             Contract.MainMoviesEntry.MOVIE_OVERVIEW,
+            Contract.MainMoviesEntry.MOVIE_RELEASE_DATE,
             Contract.MainMoviesEntry.MOVIE_FRONT_POSTER_PATH,
             Contract.MainMoviesEntry.MOVIE_BACK_POSTER_PATH,
             Contract.MainMoviesEntry.MOVIE_VOTE_AVERAGE,
@@ -69,59 +70,13 @@ public class DetailPage extends AppCompatActivity implements
 
         getSupportLoaderManager().initLoader(ID_DETAIL_LOADER,null,this);
 
-//        String backgroundImagePath = intent.getStringExtra(AppConstants.getBackgroundPosterPathAttribute());
-//
-//        String titleOfMovie = intent.getStringExtra(AppConstants.getTitleAttribute());
-//
-//        String releaseDate = intent.getStringExtra(AppConstants.getReleaseDateAttribute());
-//
-//        String ratingOfMovie = intent.getStringExtra(AppConstants.getRatingAttribute());
-//
-//        String movieOverView = intent.getStringExtra(AppConstants.getOverviewAttribute());
-//
-//        boolean isBackgroundPoster = true;
-//
-//        URL imageUrl = new NetworkUtils().buildImageUrl(backgroundImagePath,isBackgroundPoster);
-//
-//        String backgroundImageUrl = null;
-//
-//        try{
-//            backgroundImagePath = URLDecoder.decode(imageUrl.toString(),"UTF-8");
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-
         mTitleTextView = (TextView) findViewById(R.id.tv_title);
         mRatingsTextView = (TextView) findViewById(R.id.tv_ratings);
         mReleaseDateTextView = (TextView) findViewById(R.id.tv_date_of_release);
         mOverViewTextView = (TextView) findViewById(R.id.tv_overview);
         mImageViewProgressBar = (ProgressBar) findViewById(R.id.iv_detail_page_progress_bar);
         mBackgroundPosterImageView = (ImageView) findViewById(R.id.detail_page_image_view);
-
-//        Uri imageUri = Uri.parse(backgroundImagePath);
-//        Context context = getBaseContext();
-//        mBackgroundPosterImageView = (ImageView) findViewById(R.id.detail_page_image_view);
-//        mImageViewProgressBar = (ProgressBar) findViewById(R.id.iv_detail_page_progress_bar);
-//
-//        mImageViewProgressBar.setVisibility(View.VISIBLE);
-//        Picasso.with(context).load(imageUri)
-//                .into(mBackgroundPosterImageView, new Callback() {
-//                    @Override
-//                    public void onSuccess() {
-//                        mImageViewProgressBar.setVisibility(View.INVISIBLE);
-//                    }
-//
-//                    @Override
-//                    public void onError() {
-//
-//                    }
-//                });
-//
-//        mTitleTextView.setText(titleOfMovie);
-//        mReleaseDateTextView.setText(releaseDate);
-//        mRatingsTextView.setText(ratingOfMovie + getResources().getString(R.string.base_rating_value));
-//        mOverViewTextView.setText(movieOverView);
-
+        
     }
 
     @Override
@@ -151,18 +106,22 @@ public class DetailPage extends AppCompatActivity implements
             cursorHasValidData = true;
         }
 
+
         if (!cursorHasValidData) {
             /* No data to display, simply return and do nothing */
             return;
         }
-        //mRatingsTextView.setText(data.getInt(data.getColumnIndex(Contract.MainMoviesEntry.MOVIE_VOTE_AVERAGE)));
+        String voteAverage = String.valueOf(data.getFloat(data.getColumnIndex(Contract.MainMoviesEntry.MOVIE_VOTE_AVERAGE)));
+        mRatingsTextView.setText(voteAverage);
         mTitleTextView.setText(data.getString(data.getColumnIndex(Contract.MainMoviesEntry.MOVIE_TITLE)));
 //        int releaseDate = data.getInt(data.getColumnIndex(Contract.MainMoviesEntry.MOVIE_RELEASE_DATE));
-//        mReleaseDateTextView.setText(data.getString(data.getColumnIndex(Contract.MainMoviesEntry.MOVIE_RELEASE_DATE)));
+        Log.v(TAG," title set");
+        mReleaseDateTextView.setText(data.getString(data.getColumnIndex(Contract.MainMoviesEntry.MOVIE_RELEASE_DATE)));
         mOverViewTextView.setText(data.getString(data.getColumnIndex(Contract.MainMoviesEntry.MOVIE_OVERVIEW)));
 //
-        String backgroundImagePath = data.getColumnName(data.getColumnIndex(Contract.MainMoviesEntry.MOVIE_BACK_POSTER_PATH));
+        String backgroundImagePath = data.getString(data.getColumnIndex(Contract.MainMoviesEntry.MOVIE_BACK_POSTER_PATH));
 
+        Log.v(TAG,"back poster path" + data.getColumnName(data.getColumnIndex(Contract.MainMoviesEntry.MOVIE_BACK_POSTER_PATH)));
         boolean isBackgroundPoster = true;
 
         URL imageUrl = new NetworkUtils().buildImageUrl(backgroundImagePath,isBackgroundPoster);
@@ -176,6 +135,7 @@ public class DetailPage extends AppCompatActivity implements
         }
 
         Uri imageUri = Uri.parse(backgroundImageUrl);
+        Log.v(TAG, "" + imageUri);
         Context context = getBaseContext();
 
         mImageViewProgressBar.setVisibility(View.VISIBLE);

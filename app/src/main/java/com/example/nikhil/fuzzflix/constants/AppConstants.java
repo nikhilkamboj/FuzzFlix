@@ -36,7 +36,7 @@ public class AppConstants {
     //    size of the poster is defined here, using w500 a medium size poster(image path appender-3)
     private static final String FOREGROUND_IMAGE_SIZE = "w500";
 
-    private static final String BACKGROUND_IMAGE_SIZE = "w1000";
+    private static final String BACKGROUND_IMAGE_SIZE = "w500";
 
 
  /* ----------------------------------------END IMAGE URL----------------------------------------------------------- */

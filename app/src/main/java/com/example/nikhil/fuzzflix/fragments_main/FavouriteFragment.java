@@ -1,4 +1,4 @@
-package com.example.nikhil.fuzzflix.fragments;
+package com.example.nikhil.fuzzflix.fragments_main;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
