@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.nikhil.fuzzflix.R;
+
 /**
  * Created by nikhil on 11/03/18.
  */
@@ -22,6 +24,6 @@ public class ReviewsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return inflater.inflate(R.layout.reviews_fragment,container,false);
     }
 }

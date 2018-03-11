@@ -1,4 +1,4 @@
-package com.example.nikhil.fuzzflix.fragments_main;
+package com.example.nikhil.fuzzflix.fragments_detail;
 
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,15 +8,16 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.ArrayList;
 
 /**
- * Created by nikhil on 26/02/18.
+ * Created by nikhil on 11/03/18.
  */
 
-public class ViewPagerAdapter extends FragmentPagerAdapter {
+public class DetailViewPagerAdapter extends FragmentPagerAdapter {
 
     ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
-    ArrayList<String>   headingList = new ArrayList<>();
+    ArrayList<String> headingList = new ArrayList<>();
 
-    public ViewPagerAdapter(FragmentManager fm) {
+
+    public DetailViewPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
