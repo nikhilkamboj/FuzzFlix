@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.example.nikhil.fuzzflix.fragments_main.FavouriteFragment;
 import com.example.nikhil.fuzzflix.fragments_main.PopularFragment;
 import com.example.nikhil.fuzzflix.fragments_main.TopRatedFragment;
-import com.example.nikhil.fuzzflix.fragments_main.ViewPagerAdapter;
+import com.example.nikhil.fuzzflix.fragments_main.MainViewPagerAdapter;
 import com.example.nikhil.fuzzflix.sync.FlixSyncUtils;
 
 public class MainActivity extends AppCompatActivity{
@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity{
         FlixSyncUtils.initialize(this);
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        MainViewPagerAdapter viewPagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager());
 
         viewPagerAdapter.add(new PopularFragment(), "popular");
         viewPagerAdapter.add(new TopRatedFragment(), "top rated");
