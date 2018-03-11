@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +19,10 @@ import android.widget.TextView;
 
 import com.example.nikhil.fuzzflix.constants.AppConstants;
 import com.example.nikhil.fuzzflix.database.Contract;
+import com.example.nikhil.fuzzflix.fragments_detail.DetailViewPagerAdapter;
+import com.example.nikhil.fuzzflix.fragments_detail.OverviewFragment;
+import com.example.nikhil.fuzzflix.fragments_detail.ReviewsFragment;
+import com.example.nikhil.fuzzflix.fragments_detail.TrailersFragment;
 import com.example.nikhil.fuzzflix.utilities.NetworkUtils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -61,6 +67,20 @@ public class DetailPage extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_page);
 
+        ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager_detail_page);
+
+        DetailViewPagerAdapter detailViewPagerAdapter = new DetailViewPagerAdapter(getSupportFragmentManager());
+
+        detailViewPagerAdapter.add(new OverviewFragment(), "OverView");
+        detailViewPagerAdapter.add(new ReviewsFragment(), "Reviews");
+        detailViewPagerAdapter.add(new TrailersFragment(), "Trailers");
+
+        viewPager.setAdapter(detailViewPagerAdapter);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs_detail_page);
+        tabLayout.setupWithViewPager(viewPager);
+
+
 
         Intent intent = getIntent();
 
@@ -76,7 +96,7 @@ public class DetailPage extends AppCompatActivity implements
         mOverViewTextView = (TextView) findViewById(R.id.tv_overview);
         mImageViewProgressBar = (ProgressBar) findViewById(R.id.iv_detail_page_progress_bar);
         mBackgroundPosterImageView = (ImageView) findViewById(R.id.detail_page_image_view);
-        
+
     }
 
     @Override
