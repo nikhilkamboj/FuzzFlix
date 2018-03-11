@@ -18,7 +18,7 @@ public class DbHelper extends SQLiteOpenHelper {
     /**
      * database version
      */
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
 
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -34,8 +34,8 @@ public class DbHelper extends SQLiteOpenHelper {
                         Contract.MainMoviesEntry.MOVIES_ID                 + " INTEGER UNIQUE NOT NULL, " +
                         Contract.MainMoviesEntry.MOVIE_TITLE               + " TEXT NOT NULL, " +
                         Contract.MainMoviesEntry.MOVIE_OVERVIEW            + " TEXT NOT NULL, " +
-                        Contract.MainMoviesEntry.MOVIE_RELEASE_DATE        + " INTEGER NOT NULL, " +
-                        Contract.MainMoviesEntry.MOVIE_VOTE_AVERAGE        + " INTEGER NOT NULL, " +
+                        Contract.MainMoviesEntry.MOVIE_RELEASE_DATE        + " TEXT NOT NULL, " +
+                        Contract.MainMoviesEntry.MOVIE_VOTE_AVERAGE        + " REAL NOT NULL, " +
                         Contract.MainMoviesEntry.MOVIE_VOTE_COUNT          + " INTEGER NOT NULL, " +
                         Contract.MainMoviesEntry.MOVIE_FRONT_POSTER_PATH   + " VARCHAR NOT NULL, " +
                         Contract.MainMoviesEntry.MOVIE_BACK_POSTER_PATH    + " VARCHAR NOT NULL, " +

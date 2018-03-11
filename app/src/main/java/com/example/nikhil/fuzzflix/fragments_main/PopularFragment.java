@@ -1,4 +1,4 @@
-package com.example.nikhil.fuzzflix.fragments;
+package com.example.nikhil.fuzzflix.fragments_main;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -12,6 +12,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,7 @@ import com.example.nikhil.fuzzflix.database.Contract;
  * Created by nikhil on 26/02/18.
  */
 
-public class TopRatedFragment extends Fragment implements MovieDataAdapter.ListItemClickListener, LoaderManager.LoaderCallbacks<Cursor> {
+public class PopularFragment extends Fragment implements MovieDataAdapter.ListItemClickListener, LoaderManager.LoaderCallbacks<Cursor>{
 
 
 
@@ -40,7 +41,13 @@ public class TopRatedFragment extends Fragment implements MovieDataAdapter.ListI
             Contract.MainMoviesEntry.MOVIE_VOTE_COUNT
     };
 
-    private static final int ID_TOP_RATED_LOADER = 45;
+
+    private static final String TAG = PopularFragment.class.getSimpleName() ;
+
+    /**
+     * this for the type of loader, if there are different loading options
+     */
+    private static final int ID_POPULAR_LOADER = 44;
 
     View mRootView;
 
@@ -48,8 +55,7 @@ public class TopRatedFragment extends Fragment implements MovieDataAdapter.ListI
 
     MovieDataAdapter mMovieAdapter;
 
-    //public ProgressBar mProgressBar;
-
+   // public ProgressBar mProgressBar;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,53 +66,54 @@ public class TopRatedFragment extends Fragment implements MovieDataAdapter.ListI
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        mRootView =  inflater.inflate(R.layout.top_rated_filter_fragment,container,false);
+        mRootView =  inflater.inflate(R.layout.popular_filter_fragment,container,false);
 
-        mRecyclerView  = mRootView.findViewById(R.id.top_rated_recycler_view);
+        mRecyclerView  = mRootView.findViewById(R.id.popular_recycler_view);
 
         mMovieAdapter = new MovieDataAdapter(this);
 
-//        mProgressBar = (ProgressBar) mRootView.findViewById(R.id.popular_recycler_view);
+        //mProgressBar = (ProgressBar) mRootView.findViewById(R.id.popular_recycler_view);
 
         final GridLayoutManager layoutManager
                 = new GridLayoutManager(this.getActivity(), 2);
 
         mRecyclerView.setLayoutManager(layoutManager);
-//
+
         mRecyclerView.setHasFixedSize(true);
 
         mRecyclerView.setAdapter(mMovieAdapter);
 
-        //loadMovieData(AppConstants.getTopRatedFilterValue());
-        getLoaderManager().initLoader(ID_TOP_RATED_LOADER,null,this);
+        //loadMovieData(AppConstants.getPopularFilterValue());
+        getLoaderManager().initLoader(ID_POPULAR_LOADER,null,this);
 
         return mRootView;
     }
+
 
     @Override
     public void onListItemClick(int movie_id) {
         Intent intent = new Intent(getContext(), DetailPage.class);
 
+
+
         // sending the Mid would work as position might even change in due to data agregation of twp apis
-        intent.putExtra(AppConstants.getKeyMovieId(), movie_id);
+        intent.putExtra(AppConstants.getKeyMovieId(),movie_id);
 
         startActivity(intent);
     }
-
-
-    // creating the loader
+    // creating a cursor loader
 
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         switch (id) {
-            case ID_TOP_RATED_LOADER:
-                Uri mUriTopRated = Contract.MainMoviesEntry.CONTENT_URI;
-                String selection = Contract.MainMoviesEntry.MOVIE_IS_TOP_RATED + "=?";
+            case ID_POPULAR_LOADER:
+                Uri mPopularUri = Contract.MainMoviesEntry.CONTENT_URI;
+                String selection = Contract.MainMoviesEntry.MOVIE_IS_POPULAR + "=?";
                 String[] selectionArgs = {"1"};
 
                 return new CursorLoader(getContext(),
-                        mUriTopRated,
+                        mPopularUri,
                         projection,
                         selection,
                         selectionArgs,
@@ -115,8 +122,11 @@ public class TopRatedFragment extends Fragment implements MovieDataAdapter.ListI
         return null;
     }
 
+    // giving cursor to the recyclerView
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        // cursor swapping taking place
+        Log.v(TAG,"cursor swapping taking place ");
         mMovieAdapter.swapCursor(data);
     }
 
