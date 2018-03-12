@@ -58,7 +58,6 @@ public class DetailPage extends AppCompatActivity implements
     ImageView mBackgroundPosterImageView;
     TextView  mTitleTextView;
     TextView  mRatingsTextView;
-    TextView mOverViewTextView;
     TextView  mReleaseDateTextView;
     ProgressBar mImageViewProgressBar;
 
@@ -67,11 +66,18 @@ public class DetailPage extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_page);
 
+
+        Intent intent = getIntent();
+
+        mMovieId = intent.getIntExtra(AppConstants.getKeyMovieId(), 0);
+
+        Log.v(TAG, "movie id:" + mMovieId);
+
         ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager_detail_page);
 
         DetailViewPagerAdapter detailViewPagerAdapter = new DetailViewPagerAdapter(getSupportFragmentManager());
 
-        detailViewPagerAdapter.add(new OverviewFragment(), "OverView");
+        detailViewPagerAdapter.add(new OverviewFragment(mMovieId), "OverView");
         detailViewPagerAdapter.add(new ReviewsFragment(), "Reviews");
         detailViewPagerAdapter.add(new TrailersFragment(), "Trailers");
 
@@ -82,18 +88,14 @@ public class DetailPage extends AppCompatActivity implements
 
 
 
-        Intent intent = getIntent();
-
-        mMovieId = intent.getIntExtra(AppConstants.getKeyMovieId(), 0);
-
-        Log.v(TAG, "movie id:" + mMovieId);
-
         getSupportLoaderManager().initLoader(ID_DETAIL_LOADER,null,this);
+
+        View view = getLayoutInflater().inflate(R.layout.overview_fragment,null);
+
 
         mTitleTextView = (TextView) findViewById(R.id.tv_title);
         mRatingsTextView = (TextView) findViewById(R.id.tv_ratings);
         mReleaseDateTextView = (TextView) findViewById(R.id.tv_date_of_release);
-        mOverViewTextView = (TextView) findViewById(R.id.tv_overview);
         mImageViewProgressBar = (ProgressBar) findViewById(R.id.iv_detail_page_progress_bar);
         mBackgroundPosterImageView = (ImageView) findViewById(R.id.detail_page_image_view);
 
@@ -137,8 +139,6 @@ public class DetailPage extends AppCompatActivity implements
 //        int releaseDate = data.getInt(data.getColumnIndex(Contract.MainMoviesEntry.MOVIE_RELEASE_DATE));
         Log.v(TAG," title set");
         mReleaseDateTextView.setText(data.getString(data.getColumnIndex(Contract.MainMoviesEntry.MOVIE_RELEASE_DATE)));
-        mOverViewTextView.setText(data.getString(data.getColumnIndex(Contract.MainMoviesEntry.MOVIE_OVERVIEW)));
-//
         String backgroundImagePath = data.getString(data.getColumnIndex(Contract.MainMoviesEntry.MOVIE_BACK_POSTER_PATH));
 
         Log.v(TAG,"back poster path" + data.getColumnName(data.getColumnIndex(Contract.MainMoviesEntry.MOVIE_BACK_POSTER_PATH)));
