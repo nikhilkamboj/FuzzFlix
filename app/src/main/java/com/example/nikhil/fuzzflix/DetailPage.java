@@ -78,7 +78,7 @@ public class DetailPage extends AppCompatActivity implements
         DetailViewPagerAdapter detailViewPagerAdapter = new DetailViewPagerAdapter(getSupportFragmentManager());
 
         detailViewPagerAdapter.add(new OverviewFragment(mMovieId), "OverView");
-        detailViewPagerAdapter.add(new ReviewsFragment(), "Reviews");
+        detailViewPagerAdapter.add(new ReviewsFragment(mMovieId), "Reviews");
         detailViewPagerAdapter.add(new TrailersFragment(), "Trailers");
 
         viewPager.setAdapter(detailViewPagerAdapter);

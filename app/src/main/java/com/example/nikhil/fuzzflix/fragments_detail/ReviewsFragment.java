@@ -14,7 +14,21 @@ import com.example.nikhil.fuzzflix.R;
  * Created by nikhil on 11/03/18.
  */
 
-public class ReviewsFragment extends Fragment {
+public class ReviewsFragment extends Fragment /*implements AsyncTaskLoader<List<String>>*/ {
+
+    int mMovieId;
+
+    View mView;
+
+    private static final int ID_DETAIL_LOADER = 46;
+
+
+    public ReviewsFragment() {
+    }
+
+    public ReviewsFragment(int mMovieId) {
+        this.mMovieId = mMovieId;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -24,6 +38,7 @@ public class ReviewsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.reviews_fragment,container,false);
+        mView = inflater.inflate(R.layout.reviews_fragment, container, false);
+        return mView;
     }
 }
