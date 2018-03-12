@@ -61,6 +61,9 @@ public class AppConstants {
 
     private static final String PAGE_INDEX_FILTER_VALUE = "page";
 
+    // will be used to create review URL
+    private static final String REVIEW_FILTER_VALUE = "reviews";
+
     /* ----------------------------------------END BASE MOVIE URL----------------------------------------------------------- */
 
 
@@ -258,5 +261,21 @@ public class AppConstants {
 
     public static String getKeyMovieId() {
         return KEY_MOVIE_ID;
+    }
+
+    public static String getReviewFilterValue() {
+        return REVIEW_FILTER_VALUE;
+    }
+
+    public static String getReviewId() {
+        return REVIEW_ID;
+    }
+
+    public static String getAuthorName() {
+        return AUTHOR_NAME;
+    }
+
+    public static String getReviewContent() {
+        return REVIEW_CONTENT;
     }
 }
