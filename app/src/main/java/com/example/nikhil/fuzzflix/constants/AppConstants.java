@@ -117,6 +117,16 @@ public class AppConstants {
 //    type of connection to be establihed internally
     private static final String CONNECTION_TYPE = "GET";
 
+    /*********************************************REVIEW PAGE ATTRIBUTES*****************************************************/
+
+    private static final String REVIEW_ID = "id";
+
+    private static final String AUTHOR_NAME = "author";
+
+    private static final String REVIEW_CONTENT = "content";
+
+
+    /* **************************************END****************************************************** */
 
 
     /**************************************************************************************************/
