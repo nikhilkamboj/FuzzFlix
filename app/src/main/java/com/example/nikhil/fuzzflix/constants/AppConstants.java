@@ -61,9 +61,23 @@ public class AppConstants {
 
     private static final String PAGE_INDEX_FILTER_VALUE = "page";
 
+    // will be used to create review URL
+    private static final String REVIEW_FILTER_VALUE = "reviews";
+
     /* ----------------------------------------END BASE MOVIE URL----------------------------------------------------------- */
 
 
+    /******************************************YOU TUBE PATH ATTRBUTES****************************************************************/
+
+    private static final String YOUTUBE_BASE_AUTHORITY = "www.youtube.com";
+
+
+    private static final String YOUTUBE_WATCH_ATTRUBUTE = "watch";
+
+    private static final String YOUTUBE_KEY_ATTRIBUTE = "v";
+
+
+    /**********************************************************************************************************************************/
 
     /*  ******************* START appending query parameters *******************************/
 
@@ -137,6 +151,18 @@ public class AppConstants {
 
     // for key value pair to send Movie_id from popular and TopRated to detail page easily
     private static final String KEY_MOVIE_ID = "movie_id";
+
+    //
+
+
+    private static final String VIDEO_TMDB_ATTRIBUTE = "videos";
+
+    // creating for handling json data
+    private static final String TRAILER_ID = "id";
+
+    private static final String TRAILER_KEY = "key";
+
+    private static final String TRAILER_NAME = "name";
     /**************************************************************************************************/
 
     /* **************************************END****************************************************** */
@@ -258,5 +284,49 @@ public class AppConstants {
 
     public static String getKeyMovieId() {
         return KEY_MOVIE_ID;
+    }
+
+    public static String getReviewFilterValue() {
+        return REVIEW_FILTER_VALUE;
+    }
+
+    public static String getReviewId() {
+        return REVIEW_ID;
+    }
+
+    public static String getAuthorName() {
+        return AUTHOR_NAME;
+    }
+
+    public static String getReviewContent() {
+        return REVIEW_CONTENT;
+    }
+
+    public static String getYoutubeKeyAttribute() {
+        return YOUTUBE_KEY_ATTRIBUTE;
+    }
+
+    public static String getVideoTmdbAttribute() {
+        return VIDEO_TMDB_ATTRIBUTE;
+    }
+
+    public static String getTrailerId() {
+        return TRAILER_ID;
+    }
+
+    public static String getTrailerKey() {
+        return TRAILER_KEY;
+    }
+
+    public static String getTrailerName() {
+        return TRAILER_NAME;
+    }
+
+    public static String getYoutubeBaseAuthority() {
+        return YOUTUBE_BASE_AUTHORITY;
+    }
+
+    public static String getYoutubeWatchAttrubute() {
+        return YOUTUBE_WATCH_ATTRUBUTE;
     }
 }

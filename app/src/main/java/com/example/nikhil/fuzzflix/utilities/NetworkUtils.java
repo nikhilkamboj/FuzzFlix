@@ -64,6 +64,77 @@ public class NetworkUtils {
         return url;
     }
 
+    // use reviews tag instead of filter type to create reviews Url.
+    public URL buildReviewUrl(int movieId) {
+        URL url = null;
+
+        Uri.Builder uriBuilder = new Uri.Builder();
+
+        uriBuilder.scheme(AppConstants.getSchemeOfUrl())
+                .authority(AppConstants.getBaseUrlAuthority())
+                .appendPath(AppConstants.getDbVersion())
+                .appendPath(AppConstants.getMovieDataRequest())
+                .appendPath(String.valueOf(movieId))
+                .appendPath(AppConstants.getReviewFilterValue())
+                .appendQueryParameter(AppConstants.getApiAuthenticationKeyParam() ,AppConstants.getApiAuthenticationKeyValue())
+                .build();
+
+        try{
+            url = new URL(uriBuilder.toString());
+        }catch (MalformedURLException e){
+            e.printStackTrace();
+        }
+
+        return url;
+    }
+
+    // use to receive trailers information
+    public URL buildTrailerUrl(int movieId) {
+        URL url = null;
+
+        Uri.Builder uriBuilder = new Uri.Builder();
+
+        uriBuilder.scheme(AppConstants.getSchemeOfUrl())
+                .authority(AppConstants.getBaseUrlAuthority())
+                .appendPath(AppConstants.getDbVersion())
+                .appendPath(AppConstants.getMovieDataRequest())
+                .appendPath(String.valueOf(movieId))
+                .appendPath(AppConstants.getVideoTmdbAttribute())
+                .appendQueryParameter(AppConstants.getApiAuthenticationKeyParam() ,AppConstants.getApiAuthenticationKeyValue())
+                .build();
+
+        try{
+            url = new URL(uriBuilder.toString());
+        }catch (MalformedURLException e){
+            e.printStackTrace();
+        }
+
+        return url;
+    }
+
+
+    // youtube video Url
+    public URL buildYoutubeUrl(String key) {
+        URL url = null;
+
+        Uri.Builder uriBuilder = new Uri.Builder();
+
+        uriBuilder.scheme(AppConstants.getSchemeOfUrl())
+                .authority(AppConstants.getYoutubeBaseAuthority())
+                .appendPath(AppConstants.getYoutubeWatchAttrubute())
+                .appendQueryParameter(AppConstants.getYoutubeKeyAttribute() ,key)
+                .build();
+
+        try{
+            url = new URL(uriBuilder.toString());
+        }catch (MalformedURLException e){
+            e.printStackTrace();
+        }
+
+        return url;
+    }
+
+
     /**
      * uses Uri.Builder to build a image Url to reach to the poster of particular movie.
      *
