@@ -49,6 +49,15 @@ public class ReviewAsyncLoader extends AsyncTaskLoader<List<ReviewData>> {
 
         Log.v(TAG, "list: " +reviewDataArrayList);
 
-        return null;
+        return reviewDataArrayList;
+    }
+
+    @Override
+    public void deliverResult(@Nullable List<ReviewData> data) {
+        super.deliverResult(data);
+        if (data != null) {
+            Log.v(TAG,"result delivered " +data.size());
+        }
+
     }
 }

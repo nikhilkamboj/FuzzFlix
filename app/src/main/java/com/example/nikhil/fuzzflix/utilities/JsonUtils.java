@@ -2,10 +2,12 @@ package com.example.nikhil.fuzzflix.utilities;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.util.Log;
 
 import com.example.nikhil.fuzzflix.constants.AppConstants;
 import com.example.nikhil.fuzzflix.data.DisplayData;
 import com.example.nikhil.fuzzflix.data.ReviewData;
+import com.example.nikhil.fuzzflix.data.TrailerData;
 import com.example.nikhil.fuzzflix.database.Contract;
 
 import org.json.JSONArray;
@@ -24,6 +26,8 @@ import java.util.ArrayList;
  */
 
 public class JsonUtils {
+
+    private static final String TAG = JsonUtils.class.getSimpleName();
 
     /**
      * traverses the json Object and gets the required data to be shown on_screen.
@@ -96,7 +100,6 @@ public class JsonUtils {
         ArrayList<ReviewData> reviewList = new ArrayList<>();
 
 
-
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
             JSONArray  jsonArray  = jsonObject.getJSONArray(AppConstants.getResultArrayAttribute());
@@ -130,7 +133,36 @@ public class JsonUtils {
     }
 
 
+    public ArrayList<TrailerData> getTrailerFromJsonString(String jsonString) {
+        ArrayList<TrailerData> trailerDataArrayList = new ArrayList<>();
 
+        try{
+            JSONObject jsonObject = new JSONObject(jsonString);
+            JSONArray  jsonArray  = jsonObject.getJSONArray(AppConstants.getResultArrayAttribute());
+            Log.i(TAG, "" +jsonArray);
+            TrailerData trailerData;
+
+            if (jsonArray.length() == 0) {
+                return null;
+            }
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                trailerData = new TrailerData();
+                JSONObject indexJsonObject = jsonArray.getJSONObject(i);
+
+                trailerData.setId(indexJsonObject.getString(AppConstants.getTrailerId()));
+                trailerData.setKey(indexJsonObject.getString(AppConstants.getTrailerKey()));
+                trailerData.setTrailer(indexJsonObject.getString(AppConstants.getTrailerName()));
+
+                trailerDataArrayList.add(trailerData);
+            }
+
+        }catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return trailerDataArrayList;
+    }
 
 
 
