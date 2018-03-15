@@ -101,11 +101,11 @@ public class JsonUtils {
 
 
         try {
-            JSONObject jsonObject = new JSONObject(jsonString);
+            JSONObject jsonObject = new JSONObject(jsonString == null? "" : jsonString);
             JSONArray  jsonArray  = jsonObject.getJSONArray(AppConstants.getResultArrayAttribute());
             ReviewData reviewData;
 
-            if(jsonArray.length() == 0){
+            if(null == jsonArray || jsonArray.length() == 0){
                 return null;
             }
 

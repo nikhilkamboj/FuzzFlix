@@ -64,7 +64,7 @@ public class NetworkUtils {
         return url;
     }
 
-    // use reviews tag instead of filter type to create reviews Url.
+    // use reviews tag instead of add_to_fav type to create reviews Url.
     public URL buildReviewUrl(int movieId) {
         URL url = null;
 
