@@ -53,10 +53,10 @@ public class AppConstants {
     //    type of data request(movie, tv show etc). here we are looking for movie data  {appender -2 'movie'}
     private static final String MOVIE_DATA_REQUEST = "movie";
 
-    //    setting the parameter to get the popular filter into the url, so to get popular movies data. {appender -3 'popular'}
+    //    setting the parameter to get the popular add_to_fav into the url, so to get popular movies data. {appender -3 'popular'}
     private static final String POPULAR_FILTER_VALUE = "popular";
 
-    //    setting the parameter to get top rated filter into url, so to get the popular movies data. {appender -3 'top_rated'}
+    //    setting the parameter to get top rated add_to_fav into url, so to get the popular movies data. {appender -3 'top_rated'}
     private static final String TOP_RATED_FILTER_VALUE = "top_rated";
 
     private static final String PAGE_INDEX_FILTER_VALUE = "page";

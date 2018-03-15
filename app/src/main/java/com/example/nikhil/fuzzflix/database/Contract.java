@@ -102,12 +102,12 @@ public class Contract {
         public static final String MOVIE_IS_FAVOURITE = "is_favourite";
 
         /**
-         * is_popular to keep track of movie belongs to popular filter
+         * is_popular to keep track of movie belongs to popular add_to_fav
          */
         public static final String MOVIE_IS_POPULAR = "is_popular";
 
         /**
-         * is_top_rated to keep track of movie if belongs to top_rated filter
+         * is_top_rated to keep track of movie if belongs to top_rated add_to_fav
          */
         public static final String MOVIE_IS_TOP_RATED = "is_top_rated";
     }

@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 /**
  * Created by nikhil on 01/03/18.
@@ -20,6 +21,9 @@ public class MoviesProvider extends ContentProvider {
      */
     public static final int CODE_MAIN_MOVIES = 100;
     public static final int CODE_MAIN_MOVIES_ID = 101;
+
+    private static final String TAG = MoviesProvider.class.getSimpleName();
+
 
     public static final UriMatcher sUriMatcher = buildUriMatcher();
     private DbHelper mMoviesOpenHelper;
@@ -126,6 +130,22 @@ public class MoviesProvider extends ContentProvider {
 
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
+        final SQLiteDatabase db = mMoviesOpenHelper.getWritableDatabase();
+        int rowsUpdated = 0;
+        switch (sUriMatcher.match(uri)) {
+            case CODE_MAIN_MOVIES:
+                // selection would be movie_id = ?, selectionArgs be movie_id. changes the content values
+                db.beginTransaction();
+                try {
+                    rowsUpdated = db.update(Contract.MainMoviesEntry.TABLE_NAME,values,selection,selectionArgs);
+                    db.setTransactionSuccessful();
+                }
+                finally {
+                    db.endTransaction();
+                }
+                Log.i(TAG,"updated the db");
+                return rowsUpdated;
+        }
         return 0;
     }
 

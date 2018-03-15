@@ -1,5 +1,6 @@
 package com.example.nikhil.fuzzflix;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -10,12 +11,15 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.nikhil.fuzzflix.constants.AppConstants;
 import com.example.nikhil.fuzzflix.database.Contract;
@@ -34,6 +38,11 @@ public class DetailPage extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
 
+    private boolean movieAddedToFav;
+
+    private ImageView imageView;
+
+
 
     private static final String[] projection = {
             Contract.MainMoviesEntry.MOVIES_ID,
@@ -43,7 +52,8 @@ public class DetailPage extends AppCompatActivity implements
             Contract.MainMoviesEntry.MOVIE_FRONT_POSTER_PATH,
             Contract.MainMoviesEntry.MOVIE_BACK_POSTER_PATH,
             Contract.MainMoviesEntry.MOVIE_VOTE_AVERAGE,
-            Contract.MainMoviesEntry.MOVIE_VOTE_COUNT
+            Contract.MainMoviesEntry.MOVIE_VOTE_COUNT,
+            Contract.MainMoviesEntry.MOVIE_IS_FAVOURITE
     };
 
 
@@ -55,6 +65,8 @@ public class DetailPage extends AppCompatActivity implements
 
     private static final int ID_DETAIL_LOADER = 46;
 
+    private static final int ID_UPDATE_LOADER = 50;
+
     ImageView mBackgroundPosterImageView;
     TextView  mTitleTextView;
     TextView  mRatingsTextView;
@@ -65,7 +77,6 @@ public class DetailPage extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_page);
-
 
         Intent intent = getIntent();
 
@@ -83,10 +94,22 @@ public class DetailPage extends AppCompatActivity implements
 
         viewPager.setAdapter(detailViewPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs_detail_page);
+        final TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs_detail_page);
         tabLayout.setupWithViewPager(viewPager);
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayOptions(actionBar.getDisplayOptions()
+                | ActionBar.DISPLAY_SHOW_CUSTOM);
+         imageView = new ImageView(actionBar.getThemedContext());
+         imageView.setScaleType(ImageView.ScaleType.CENTER);
 
+        ActionBar.LayoutParams layoutParams = new ActionBar.LayoutParams(
+                ActionBar.LayoutParams.WRAP_CONTENT,
+                ActionBar.LayoutParams.WRAP_CONTENT, Gravity.RIGHT
+                | Gravity.CENTER_VERTICAL);
+        layoutParams.rightMargin = 40;
+        imageView.setLayoutParams(layoutParams);
+        actionBar.setCustomView(imageView);
 
         getSupportLoaderManager().initLoader(ID_DETAIL_LOADER,null,this);
 
@@ -98,6 +121,40 @@ public class DetailPage extends AppCompatActivity implements
         mReleaseDateTextView = (TextView) findViewById(R.id.tv_date_of_release);
         mImageViewProgressBar = (ProgressBar) findViewById(R.id.iv_detail_page_progress_bar);
         mBackgroundPosterImageView = (ImageView) findViewById(R.id.detail_page_image_view);
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                if (movieAddedToFav == true) {
+                    // if flag is already set then movie needs to be removed from db
+                    // calling loaders from here to update the tables.
+                    imageView.setImageResource(R.drawable.ic_nill_star);
+                    Toast.makeText(getBaseContext(),"clicked star removed",Toast.LENGTH_SHORT).show();
+                    // null needs to be changed
+                    bundle.putInt("key",0);
+                    getSupportLoaderManager().initLoader(ID_UPDATE_LOADER,bundle,DetailPage.this);
+                    movieAddedToFav = false;
+                } else {
+                    // if flag is 0 then it eeds to be set i.e movie needed to be added to db
+                    imageView.setImageResource(R.drawable.ic_rating_stars);
+                    Toast.makeText(getBaseContext(),"clicked star added",Toast.LENGTH_SHORT).show();
+                    // null needs to be changed
+                    bundle.putInt("Key",1);
+                    getSupportLoaderManager().initLoader(ID_UPDATE_LOADER,bundle,DetailPage.this);
+                    movieAddedToFav = true;
+                }
+            }
+        });
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        getSupportLoaderManager().initLoader(ID_DETAIL_LOADER,null,this);
 
     }
 
@@ -114,6 +171,19 @@ public class DetailPage extends AppCompatActivity implements
                         selection,
                         selectionArgs,
                         null);
+            // another loader id for update query
+            case ID_UPDATE_LOADER:
+                // trying doing this thing in a different thread.
+                //always getting 0 despite bundling the value to 1
+                int valueFav = args.getInt("Key");
+                Uri mainUri = Contract.MainMoviesEntry.CONTENT_URI;
+                String selections = Contract.MainMoviesEntry.MOVIES_ID + "=?";
+                String[] selectionArgss = {String.valueOf(mMovieId)};
+                ContentValues values = new ContentValues();
+                values.put(Contract.MainMoviesEntry.MOVIE_IS_FAVOURITE, valueFav);
+                int i = getContentResolver().update(mainUri,values,selections,selectionArgss);
+                Log.i(TAG, "value of i " + i);
+                break;
         }
         return null;
     }
@@ -144,6 +214,19 @@ public class DetailPage extends AppCompatActivity implements
         Log.v(TAG,"back poster path" + data.getColumnName(data.getColumnIndex(Contract.MainMoviesEntry.MOVIE_BACK_POSTER_PATH)));
         boolean isBackgroundPoster = true;
 
+
+        // setting the fav image
+        int is_fav = data.getInt(data.getColumnIndex(Contract.MainMoviesEntry.MOVIE_IS_FAVOURITE));
+
+        if (is_fav == 1) {
+            movieAddedToFav = true;
+            imageView.setImageResource(R.drawable.ic_rating_stars);
+        } else {
+            movieAddedToFav = false;
+            imageView.setImageResource(R.drawable.ic_nill_star);
+        }
+
+
         URL imageUrl = new NetworkUtils().buildImageUrl(backgroundImagePath,isBackgroundPoster);
 
         String backgroundImageUrl = null;
@@ -173,10 +256,19 @@ public class DetailPage extends AppCompatActivity implements
                         });
 
         Log.v(TAG, "data count:" + data.getCount());
+
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
     }
+
+    // creating asyncTask for data updation.
+
+
+
+
+
+
 }

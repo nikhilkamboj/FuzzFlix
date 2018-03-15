@@ -5,7 +5,8 @@
     <string name="top_rated_button">Top Rated</string>
     <string name="detail_page_label">Movie Details</string>
     <string name="base_rating_value">/10</string>
-    
+    <string name="add_to_fav">Add To Fav</string>
+    <string name="added_to_fav">Added to fav</string>
     <string name="title_movie">Name Of Movie</string>
     <string name="rating_of_movie">6.4</string>
     <string name="date_of_release">2016-3-15</string>
