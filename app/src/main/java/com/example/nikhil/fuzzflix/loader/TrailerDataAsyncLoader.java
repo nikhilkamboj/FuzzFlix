@@ -39,15 +39,10 @@ public class TrailerDataAsyncLoader extends AsyncTaskLoader<List<TrailerData>> {
 
         URL urlTrailerApiTMDB = new NetworkUtils().buildTrailerUrl(mMovieId);
 
-
-        Log.v(TAG, "url is:" +urlTrailerApiTMDB);
-
         // setting http on back thread.
         try{
             String jsonString = new NetworkUtils().getHttpUrlRequest(urlTrailerApiTMDB);
-            Log.i(TAG, jsonString);
             trailerDataArrayList = new JsonUtils().getTrailerFromJsonString(jsonString);
-            Log.i(TAG, "list: " + trailerDataArrayList);
         }catch (IOException e) {
             e.printStackTrace();
         }

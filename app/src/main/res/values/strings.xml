@@ -22,5 +22,7 @@
     <string name="no_internet_conn">No Internet</string>
     <string name="name_of_reviewer">nikhil :</string>
     <string name="review_given">it was gooooooooood!!!!!!!!!!!!!!</string>
+    <string name="no_review_yet">No Review Yet!!!</string>
+    <string name="not_yet_added_to_favourite">Not Yet Added To FAV!!!!!</string>
 
 </resources>

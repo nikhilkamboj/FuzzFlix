@@ -12,7 +12,6 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,14 +94,12 @@ public class FavouriteFragment extends Fragment implements MovieDataAdapter.List
     @Override
     public void onResume() {
         mProgressBar = (ProgressBar) mRootView.findViewById(R.id.favourite_fragment_progress_bar);
-        Log.i(TAG, "fav fragment has been resumed");
         onResumeFragment();
         super.onResume();
     }
 
     @Override
     public void onPause() {
-        Log.i(TAG, "fav fragment has been paused!!!");
         onPauseFragment();
         super.onPause();
     }
@@ -144,7 +141,6 @@ public class FavouriteFragment extends Fragment implements MovieDataAdapter.List
         mProgressBar.setVisibility(View.INVISIBLE);
         // cursor swapping taking place
         mMovieAdapter.swapCursor(data);
-        Log.v(TAG,"cursor swapping taking place ");
         if (data.getCount() == 0 || data == null) {
             textView.setVisibility(View.VISIBLE);
         } else {

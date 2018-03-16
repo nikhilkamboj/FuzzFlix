@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.nikhil.fuzzflix.R;
 import com.example.nikhil.fuzzflix.data.ReviewData;
@@ -40,6 +41,8 @@ public class ReviewsFragment extends Fragment implements LoaderManager.LoaderCal
 
     private ProgressBar mProgressBar;
 
+    private TextView mNoReviewTextView;
+
     public ReviewsFragment() {
     }
 
@@ -50,7 +53,6 @@ public class ReviewsFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
 
@@ -97,18 +99,18 @@ public class ReviewsFragment extends Fragment implements LoaderManager.LoaderCal
 
     @Override
     public void onLoadFinished(Loader<List<ReviewData>> loader, List<ReviewData> data) {
-
         mProgressBar.setVisibility(View.INVISIBLE);
-
+        mNoReviewTextView = mView.findViewById(R.id.tv_no_review_yet);
         mReviewAdapter.swapList((ArrayList<ReviewData>) data);
 
-//        TextView reviewTextView = getView().findViewById(R.id.tv_review_frag_1);
-//
-//        if (data != null && data.size() != 0){
-//            reviewTextView.setText(data.get(0).getReviewContent());
-//        } else {
-//            reviewTextView.setText(getResources().getString(R.string.no_review));
-//        }
+        if (data == null || data.size() == 0) {
+            mNoReviewTextView.setVisibility(View.VISIBLE);
+        } else {
+            mNoReviewTextView.setVisibility(View.INVISIBLE);
+        }
+
+
+
     }
 
     @Override

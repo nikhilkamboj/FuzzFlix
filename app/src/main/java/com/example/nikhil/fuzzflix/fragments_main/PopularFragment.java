@@ -161,7 +161,6 @@ public class PopularFragment extends Fragment implements MovieDataAdapter.ListIt
             mProgressBar.setVisibility(View.INVISIBLE);
         }
         // cursor swapping taking place
-        Log.v(TAG,"cursor swapping taking place");
         mMovieAdapter.swapCursor(data);
     }
 
