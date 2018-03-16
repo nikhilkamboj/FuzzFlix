@@ -88,9 +88,9 @@ public class DetailPage extends AppCompatActivity implements
 
         DetailViewPagerAdapter detailViewPagerAdapter = new DetailViewPagerAdapter(getSupportFragmentManager());
 
-        detailViewPagerAdapter.add(new OverviewFragment(mMovieId), "OverView");
-        detailViewPagerAdapter.add(new ReviewsFragment(mMovieId), "Reviews");
-        detailViewPagerAdapter.add(new TrailersFragment(mMovieId), "Trailers");
+        detailViewPagerAdapter.add(new OverviewFragment(mMovieId), getResources().getString(R.string.detail_page_overview_fragment));
+        detailViewPagerAdapter.add(new ReviewsFragment(mMovieId), getResources().getString(R.string.detail_page_reviews_fragment));
+        detailViewPagerAdapter.add(new TrailersFragment(mMovieId), getResources().getString(R.string.detail_page_trailer_fragment));
 
         viewPager.setAdapter(detailViewPagerAdapter);
 
@@ -130,17 +130,17 @@ public class DetailPage extends AppCompatActivity implements
                     // if flag is already set then movie needs to be removed from db
                     // calling loaders from here to update the tables.
                     imageView.setImageResource(R.drawable.ic_nill_star);
-                    Toast.makeText(getBaseContext(),"clicked star removed",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(),getResources().getString(R.string.removed_from_fav),Toast.LENGTH_SHORT).show();
                     // null needs to be changed
-                    bundle.putInt("key",0);
+                    bundle.putInt(AppConstants.getFavStarButtonKey(),AppConstants.getBundleValueRemoveFav());
                     getSupportLoaderManager().initLoader(ID_UPDATE_LOADER,bundle,DetailPage.this);
                     movieAddedToFav = false;
                 } else {
                     // if flag is 0 then it eeds to be set i.e movie needed to be added to db
                     imageView.setImageResource(R.drawable.ic_rating_stars);
-                    Toast.makeText(getBaseContext(),"clicked star added",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(),getResources().getString(R.string.added_to_fav),Toast.LENGTH_SHORT).show();
                     // null needs to be changed
-                    bundle.putInt("Key",1);
+                    bundle.putInt(AppConstants.getFavStarButtonKey(),AppConstants.getBundleValueAddFav());
                     getSupportLoaderManager().initLoader(ID_UPDATE_LOADER,bundle,DetailPage.this);
                     movieAddedToFav = true;
                 }
@@ -163,7 +163,7 @@ public class DetailPage extends AppCompatActivity implements
         switch (id) {
             case ID_DETAIL_LOADER:
                 Uri mMainUri = Contract.MainMoviesEntry.CONTENT_URI;
-                String selection = Contract.MainMoviesEntry.MOVIES_ID + "=?";
+                String selection = Contract.MainMoviesEntry.MOVIES_ID + AppConstants.getSelectionEqualQuestionString();
                 String[] selectionArgs = {String.valueOf(mMovieId)};
                 return new CursorLoader(getApplicationContext(),
                         mMainUri,
@@ -175,9 +175,9 @@ public class DetailPage extends AppCompatActivity implements
             case ID_UPDATE_LOADER:
                 // trying doing this thing in a different thread.
                 //always getting 0 despite bundling the value to 1
-                int valueFav = args.getInt("Key");
+                int valueFav = args.getInt(AppConstants.getFavStarButtonKey());
                 Uri mainUri = Contract.MainMoviesEntry.CONTENT_URI;
-                String selections = Contract.MainMoviesEntry.MOVIES_ID + "=?";
+                String selections = Contract.MainMoviesEntry.MOVIES_ID + AppConstants.getSelectionEqualQuestionString();
                 String[] selectionArgss = {String.valueOf(mMovieId)};
                 ContentValues values = new ContentValues();
                 values.put(Contract.MainMoviesEntry.MOVIE_IS_FAVOURITE, valueFav);

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_marginTop="4dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="8dp"
+        android:textSize="18sp"
+        android:textStyle="normal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="@string/name_of_reviewer"
+        android:fontFamily="sans-serif-condensed"
+        android:id="@+id/tv_name_of_reviewer"
+        android:textColor="#000"/>
+
+    <TextView
+        android:layout_marginTop="4dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="8dp"
+        android:textSize="18sp"
+        android:textStyle="normal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="@string/review_given"
+        android:fontFamily="sans-serif-condensed"
+        android:id="@+id/tv_review_given"
+        android:textColor="#000"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="               ---------------------------------------------------------------"/>
+</LinearLayout>

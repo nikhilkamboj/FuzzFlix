@@ -5,10 +5,22 @@
     <string name="top_rated_button">Top Rated</string>
     <string name="detail_page_label">Movie Details</string>
     <string name="base_rating_value">/10</string>
-    <string name="add_to_fav">Add To Fav</string>
-    <string name="added_to_fav">Added to fav</string>
+    <string name="removed_from_fav">Removed from Fav!!</string>
+    <string name="added_to_fav">Added to Fav!!</string>
     <string name="title_movie">Name Of Movie</string>
     <string name="rating_of_movie">6.4</string>
     <string name="date_of_release">2016-3-15</string>
     <string name="overview_of_movie">OverView Of Movie</string>
+    <string name="detail_page_overview_fragment">Overview</string>
+    <string name="detail_page_reviews_fragment">Reviews</string>
+    <string name="detail_page_trailer_fragment">Trailer</string>
+    <string name="main_activity_popular_fragment">Popular</string>
+    <string name="main_activity_top_rated_fragment">Top Rated</string>
+    <string name="main_activity_favourite_fragment">Favourite</string>
+    <string name="no_review">No Review Yet</string>
+    <string name="trailer_button">Trailer</string>
+    <string name="no_internet_conn">No Internet</string>
+    <string name="name_of_reviewer">nikhil :</string>
+    <string name="review_given">it was gooooooooood!!!!!!!!!!!!!!</string>
+
 </resources>

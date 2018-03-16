@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.nikhil.fuzzflix.R;
+import com.example.nikhil.fuzzflix.constants.AppConstants;
 import com.example.nikhil.fuzzflix.database.Contract;
 
 /**
@@ -71,7 +72,7 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
         switch (id) {
             case ID_POPULAR_LOADER:
                 Uri mPopularUri = Contract.MainMoviesEntry.CONTENT_URI;
-                String selection = Contract.MainMoviesEntry.MOVIES_ID + "=?";
+                String selection = Contract.MainMoviesEntry.MOVIES_ID + AppConstants.getSelectionEqualQuestionString();
                 String[] selectionArgs = {String.valueOf(mMovieId)};
 
                 return new CursorLoader(getContext(),

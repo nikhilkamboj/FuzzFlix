@@ -15,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.example.nikhil.fuzzflix.DetailPage;
 import com.example.nikhil.fuzzflix.MovieDataAdapter;
@@ -48,7 +49,7 @@ public class TopRatedFragment extends Fragment implements MovieDataAdapter.ListI
 
     MovieDataAdapter mMovieAdapter;
 
-    //public ProgressBar mProgressBar;
+    public ProgressBar mProgressBar;
 
 
     @Override
@@ -66,7 +67,7 @@ public class TopRatedFragment extends Fragment implements MovieDataAdapter.ListI
 
         mMovieAdapter = new MovieDataAdapter(this);
 
-//        mProgressBar = (ProgressBar) mRootView.findViewById(R.id.popular_recycler_view);
+        mProgressBar = (ProgressBar) mRootView.findViewById(R.id.top_rated_fragment_progress_bar);
 
         final GridLayoutManager layoutManager
                 = new GridLayoutManager(this.getActivity(), 2);
@@ -102,8 +103,8 @@ public class TopRatedFragment extends Fragment implements MovieDataAdapter.ListI
         switch (id) {
             case ID_TOP_RATED_LOADER:
                 Uri mUriTopRated = Contract.MainMoviesEntry.CONTENT_URI;
-                String selection = Contract.MainMoviesEntry.MOVIE_IS_TOP_RATED + "=?";
-                String[] selectionArgs = {"1"};
+                String selection = Contract.MainMoviesEntry.MOVIE_IS_TOP_RATED + AppConstants.getSelectionEqualQuestionString();
+                String[] selectionArgs = {AppConstants.getSelectionArgsTopRated()};
 
                 return new CursorLoader(getContext(),
                         mUriTopRated,
@@ -117,6 +118,7 @@ public class TopRatedFragment extends Fragment implements MovieDataAdapter.ListI
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        mProgressBar.setVisibility(View.INVISIBLE);
         mMovieAdapter.swapCursor(data);
     }
 

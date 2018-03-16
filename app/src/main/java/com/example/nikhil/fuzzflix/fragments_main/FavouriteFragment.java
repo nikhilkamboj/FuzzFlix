@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.example.nikhil.fuzzflix.DetailPage;
 import com.example.nikhil.fuzzflix.MovieDataAdapter;
@@ -55,7 +56,7 @@ public class FavouriteFragment extends Fragment implements MovieDataAdapter.List
 
     MovieDataAdapter mMovieAdapter;
 
-    // public ProgressBar mProgressBar;
+    public ProgressBar mProgressBar;
 
 
     @Override
@@ -70,6 +71,7 @@ public class FavouriteFragment extends Fragment implements MovieDataAdapter.List
 
         mRecyclerView = (RecyclerView) mRootView.findViewById(R.id.favourite_recycler_view);
 
+        mProgressBar = (ProgressBar) mRootView.findViewById(R.id.favourite_fragment_progress_bar);
 
         mMovieAdapter = new MovieDataAdapter(this);
 
@@ -82,6 +84,7 @@ public class FavouriteFragment extends Fragment implements MovieDataAdapter.List
 
         mRecyclerView.setAdapter(mMovieAdapter);
 
+
 //        //loadMovieData(AppConstants.getPopularFilterValue());
 //        getLoaderManager().initLoader(ID_FAVOURITE_LOADER,null,this);
 
@@ -90,6 +93,7 @@ public class FavouriteFragment extends Fragment implements MovieDataAdapter.List
 
     @Override
     public void onResume() {
+        mProgressBar = (ProgressBar) mRootView.findViewById(R.id.favourite_fragment_progress_bar);
         Log.i(TAG, "fav fragment has been resumed");
         //loadMovieData(AppConstants.getPopularFilterValue());
         getLoaderManager().initLoader(ID_FAVOURITE_LOADER,null,this);
@@ -132,8 +136,8 @@ public class FavouriteFragment extends Fragment implements MovieDataAdapter.List
         switch (id) {
             case ID_FAVOURITE_LOADER:
                 Uri mPopularUri = Contract.MainMoviesEntry.CONTENT_URI;
-                String selection = Contract.MainMoviesEntry.MOVIE_IS_FAVOURITE+ "=?";
-                String[] selectionArgs = {"1"};
+                String selection = Contract.MainMoviesEntry.MOVIE_IS_FAVOURITE+ AppConstants.getSelectionEqualQuestionString();
+                String[] selectionArgs = {AppConstants.getSelectionArgsFavourite()};
 
                 return new CursorLoader(getContext(),
                         mPopularUri,
@@ -147,6 +151,7 @@ public class FavouriteFragment extends Fragment implements MovieDataAdapter.List
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        mProgressBar.setVisibility(View.INVISIBLE);
         // cursor swapping taking place
         Log.v(TAG,"cursor swapping taking place ");
         mMovieAdapter.swapCursor(data);
@@ -159,6 +164,7 @@ public class FavouriteFragment extends Fragment implements MovieDataAdapter.List
 
     /**
      * interface methods to handle change of handling of loading of data in ViewPager
+     * handling loader destroying and resuming once we swap away and come back to the cursor
      */
     @Override
     public void onPauseFragment() {
@@ -167,6 +173,9 @@ public class FavouriteFragment extends Fragment implements MovieDataAdapter.List
 
     @Override
     public void onResumeFragment() {
+
         getLoaderManager().initLoader(ID_FAVOURITE_LOADER,null,this);
+
+
     }
 }

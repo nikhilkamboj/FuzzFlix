@@ -26,9 +26,9 @@ public class MainActivity extends AppCompatActivity{
         ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
         viewPagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager());
 
-        viewPagerAdapter.add(new PopularFragment(), "popular");
-        viewPagerAdapter.add(new TopRatedFragment(), "top rated");
-        viewPagerAdapter.add(new FavouriteFragment(), "favourites");
+        viewPagerAdapter.add(new PopularFragment(), getResources().getString(R.string.main_activity_popular_fragment));
+        viewPagerAdapter.add(new TopRatedFragment(), getResources().getString(R.string.main_activity_top_rated_fragment));
+        viewPagerAdapter.add(new FavouriteFragment(), getResources().getString(R.string.main_activity_favourite_fragment));
 
         viewPager.setAdapter(viewPagerAdapter);
 
