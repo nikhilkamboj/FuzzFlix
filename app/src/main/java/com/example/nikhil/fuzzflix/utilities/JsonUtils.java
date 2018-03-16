@@ -81,9 +81,9 @@ public class JsonUtils {
 
                 // handling data fillup for both api's
                 if (filterFlag == AppConstants.getPopularFilterFlag()) {
-                    cv.put(Contract.MainMoviesEntry.MOVIE_IS_POPULAR,"1");
+                    cv.put(Contract.MainMoviesEntry.MOVIE_IS_POPULAR,AppConstants.getSelectionArgsPopular());
                 } else if (filterFlag == AppConstants.getTopRatedFlag()) {
-                    cv.put(Contract.MainMoviesEntry.MOVIE_IS_TOP_RATED,"1");
+                    cv.put(Contract.MainMoviesEntry.MOVIE_IS_TOP_RATED,AppConstants.getSelectionArgsTopRated());
                 }
 
                 contentValuesArrayList[i] = cv;

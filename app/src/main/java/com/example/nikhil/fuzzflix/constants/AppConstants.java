@@ -164,6 +164,21 @@ public class AppConstants {
 
     private static final String TRAILER_NAME = "name";
     /**************************************************************************************************/
+    /********************************DB SELECTION ATTRIBUTES ******************************************/
+
+    private static final String SELECTION_ARGS_POPULAR = "1";
+
+    private static final String SELECTION_ARGS_TOP_RATED = "1";
+
+    private static final String SELECTION_ARGS_FAVOURITE = "1";
+
+    private static final String SELECTION_EQUAL_QUESTION_STRING = "=?";
+
+    private static final String FAV_STAR_BUTTON_KEY = "key";
+
+    private static final int BUNDLE_VALUE_REMOVE_FAV = 0;
+
+    private static final int BUNDLE_VALUE_ADD_FAV = 1;
 
     /* **************************************END****************************************************** */
 
@@ -328,5 +343,34 @@ public class AppConstants {
 
     public static String getYoutubeWatchAttrubute() {
         return YOUTUBE_WATCH_ATTRUBUTE;
+    }
+
+
+    public static String getSelectionArgsPopular() {
+        return SELECTION_ARGS_POPULAR;
+    }
+
+    public static String getSelectionArgsTopRated() {
+        return SELECTION_ARGS_TOP_RATED;
+    }
+
+    public static String getSelectionArgsFavourite() {
+        return SELECTION_ARGS_FAVOURITE;
+    }
+
+    public static String getSelectionEqualQuestionString() {
+        return SELECTION_EQUAL_QUESTION_STRING;
+    }
+
+    public static String getFavStarButtonKey() {
+        return FAV_STAR_BUTTON_KEY;
+    }
+
+    public static int getBundleValueRemoveFav() {
+        return BUNDLE_VALUE_REMOVE_FAV;
+    }
+
+    public static int getBundleValueAddFav() {
+        return BUNDLE_VALUE_ADD_FAV;
     }
 }

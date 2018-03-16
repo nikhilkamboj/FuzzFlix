@@ -9,7 +9,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="240dp"
+    android:layout_height="wrap_content"
     android:paddingLeft="2dp"
     android:paddingRight="2dp"
     android:layout_marginTop="4dp"
@@ -19,6 +19,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/iv_main_poster"
-        android:scaleType="centerCrop"
+        android:scaleType="fitXY"
          />
 </LinearLayout>

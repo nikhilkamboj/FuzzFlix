@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.example.nikhil.fuzzflix.DetailPage;
 import com.example.nikhil.fuzzflix.MovieDataAdapter;
@@ -55,7 +56,7 @@ public class PopularFragment extends Fragment implements MovieDataAdapter.ListIt
 
     MovieDataAdapter mMovieAdapter;
 
-   // public ProgressBar mProgressBar;
+    public ProgressBar mProgressBar;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,11 +78,14 @@ public class PopularFragment extends Fragment implements MovieDataAdapter.ListIt
         final GridLayoutManager layoutManager
                 = new GridLayoutManager(this.getActivity(), 2);
 
+        mProgressBar = (ProgressBar) mRootView.findViewById(R.id.popular_fragment_progress_bar);
+
         mRecyclerView.setLayoutManager(layoutManager);
 
         mRecyclerView.setHasFixedSize(true);
 
         mRecyclerView.setAdapter(mMovieAdapter);
+
 
         //loadMovieData(AppConstants.getPopularFilterValue());
         getLoaderManager().initLoader(ID_POPULAR_LOADER,null,this);
@@ -109,8 +113,8 @@ public class PopularFragment extends Fragment implements MovieDataAdapter.ListIt
         switch (id) {
             case ID_POPULAR_LOADER:
                 Uri mPopularUri = Contract.MainMoviesEntry.CONTENT_URI;
-                String selection = Contract.MainMoviesEntry.MOVIE_IS_POPULAR + "=?";
-                String[] selectionArgs = {"1"};
+                String selection = Contract.MainMoviesEntry.MOVIE_IS_POPULAR + AppConstants.getSelectionEqualQuestionString();
+                String[] selectionArgs = {AppConstants.getSelectionArgsPopular()};
 
                 return new CursorLoader(getContext(),
                         mPopularUri,
@@ -125,8 +129,9 @@ public class PopularFragment extends Fragment implements MovieDataAdapter.ListIt
     // giving cursor to the recyclerView
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        mProgressBar.setVisibility(View.INVISIBLE);
         // cursor swapping taking place
-        Log.v(TAG,"cursor swapping taking place ");
+        Log.v(TAG,"cursor swapping taking place");
         mMovieAdapter.swapCursor(data);
     }
 

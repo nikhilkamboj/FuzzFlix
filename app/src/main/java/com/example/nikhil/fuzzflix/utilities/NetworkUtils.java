@@ -29,9 +29,9 @@ public class NetworkUtils {
 
 
     //    this part of the Image Url would be retrieved from the received JSon Object(image path appender-4)
-    private String mPosterPath = "";
+    private String mPosterPath;
 
-    private String mImageSize = "w300";
+    private String mImageSize ;
 
     String inputLine;
 

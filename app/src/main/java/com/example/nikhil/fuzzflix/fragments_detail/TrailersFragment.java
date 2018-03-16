@@ -17,15 +17,11 @@ import android.widget.Button;
 import com.example.nikhil.fuzzflix.R;
 import com.example.nikhil.fuzzflix.data.TrailerData;
 import com.example.nikhil.fuzzflix.loader.TrailerDataAsyncLoader;
-import com.example.nikhil.fuzzflix.utilities.JsonUtils;
 import com.example.nikhil.fuzzflix.utilities.NetworkUtils;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.R.attr.button;
 
 /**
  * Created by nikhil on 11/03/18.
@@ -78,7 +74,7 @@ public class TrailersFragment extends Fragment implements LoaderManager.LoaderCa
         if (data != null ){
             trailerData = data.get(0);
         } else {
-            button.setText("no review yet!!");
+            button.setText(getResources().getString(R.string.no_internet_conn));
         }
         // handling on click listener here.
         // sending this object to network method which returns URL.
