@@ -147,7 +147,12 @@ public class TopRatedFragment extends Fragment implements MovieDataAdapter.ListI
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        mProgressBar.setVisibility(View.INVISIBLE);
+        if (data == null || data.getCount() == 0) {
+            mProgressBar.setVisibility(View.VISIBLE);
+        } else {
+            mProgressBar.setVisibility(View.INVISIBLE);
+        }
+
         mMovieAdapter.swapCursor(data);
     }
 

@@ -129,7 +129,7 @@ public class DetailPage extends AppCompatActivity implements
                 if (movieAddedToFav == true) {
                     // if flag is already set then movie needs to be removed from db
                     // calling loaders from here to update the tables.
-                    imageView.setImageResource(R.drawable.ic_nill_star);
+                    imageView.setImageResource(R.drawable.ic_heart_outline);
                     Toast.makeText(getBaseContext(),getResources().getString(R.string.removed_from_fav),Toast.LENGTH_SHORT).show();
                     // null needs to be changed
                     bundle.putInt(AppConstants.getFavStarButtonKey(),AppConstants.getBundleValueRemoveFav());
@@ -137,7 +137,7 @@ public class DetailPage extends AppCompatActivity implements
                     movieAddedToFav = false;
                 } else {
                     // if flag is 0 then it eeds to be set i.e movie needed to be added to db
-                    imageView.setImageResource(R.drawable.ic_rating_stars);
+                    imageView.setImageResource(R.drawable.ic_heart_fill);
                     Toast.makeText(getBaseContext(),getResources().getString(R.string.added_to_fav),Toast.LENGTH_SHORT).show();
                     // null needs to be changed
                     bundle.putInt(AppConstants.getFavStarButtonKey(),AppConstants.getBundleValueAddFav());
@@ -220,10 +220,10 @@ public class DetailPage extends AppCompatActivity implements
 
         if (is_fav == 1) {
             movieAddedToFav = true;
-            imageView.setImageResource(R.drawable.ic_rating_stars);
+            imageView.setImageResource(R.drawable.ic_heart_fill);
         } else {
             movieAddedToFav = false;
-            imageView.setImageResource(R.drawable.ic_nill_star);
+            imageView.setImageResource(R.drawable.ic_heart_outline);
         }
 
 
