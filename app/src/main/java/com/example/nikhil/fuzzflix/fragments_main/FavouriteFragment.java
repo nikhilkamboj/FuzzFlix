@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.nikhil.fuzzflix.DetailPage;
 import com.example.nikhil.fuzzflix.MovieDataAdapter;
@@ -95,29 +96,15 @@ public class FavouriteFragment extends Fragment implements MovieDataAdapter.List
     public void onResume() {
         mProgressBar = (ProgressBar) mRootView.findViewById(R.id.favourite_fragment_progress_bar);
         Log.i(TAG, "fav fragment has been resumed");
-        //loadMovieData(AppConstants.getPopularFilterValue());
-        getLoaderManager().initLoader(ID_FAVOURITE_LOADER,null,this);
+        onResumeFragment();
         super.onResume();
     }
 
     @Override
-    public void onStart() {
-        Log.i(TAG, "fav fragment has started");
-        super.onStart();
-    }
-
-
-    @Override
     public void onPause() {
         Log.i(TAG, "fav fragment has been paused!!!");
-        getLoaderManager().destroyLoader(ID_FAVOURITE_LOADER);
+        onPauseFragment();
         super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        Log.i(TAG, "fav fragment has been stopped!!!");
-        super.onStop();
     }
 
     @Override
@@ -151,10 +138,18 @@ public class FavouriteFragment extends Fragment implements MovieDataAdapter.List
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+
+        TextView textView = (TextView) mRootView.findViewById(R.id.tv_not_added);
+
         mProgressBar.setVisibility(View.INVISIBLE);
         // cursor swapping taking place
-        Log.v(TAG,"cursor swapping taking place ");
         mMovieAdapter.swapCursor(data);
+        Log.v(TAG,"cursor swapping taking place ");
+        if (data.getCount() == 0 || data == null) {
+            textView.setVisibility(View.VISIBLE);
+        } else {
+            textView.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
@@ -173,9 +168,7 @@ public class FavouriteFragment extends Fragment implements MovieDataAdapter.List
 
     @Override
     public void onResumeFragment() {
-
         getLoaderManager().initLoader(ID_FAVOURITE_LOADER,null,this);
-
 
     }
 }
