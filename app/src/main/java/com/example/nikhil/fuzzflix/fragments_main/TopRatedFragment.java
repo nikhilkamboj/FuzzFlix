@@ -1,6 +1,9 @@
 package com.example.nikhil.fuzzflix.fragments_main;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,6 +15,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +26,7 @@ import com.example.nikhil.fuzzflix.MovieDataAdapter;
 import com.example.nikhil.fuzzflix.R;
 import com.example.nikhil.fuzzflix.constants.AppConstants;
 import com.example.nikhil.fuzzflix.database.Contract;
+import com.example.nikhil.fuzzflix.sync.MovieIntentService;
 
 /**
  * Created by nikhil on 26/02/18.
@@ -29,7 +34,7 @@ import com.example.nikhil.fuzzflix.database.Contract;
 
 public class TopRatedFragment extends Fragment implements MovieDataAdapter.ListItemClickListener, LoaderManager.LoaderCallbacks<Cursor> {
 
-
+    private static final String TAG = TopRatedFragment.class.getSimpleName();
 
     private static final String[] projection = {
             Contract.MainMoviesEntry.MOVIES_ID,
@@ -43,6 +48,8 @@ public class TopRatedFragment extends Fragment implements MovieDataAdapter.ListI
 
     private static final int ID_TOP_RATED_LOADER = 45;
 
+    private final TopRatedFragment mThis = this;
+
     View mRootView;
 
     RecyclerView mRecyclerView;
@@ -50,6 +57,8 @@ public class TopRatedFragment extends Fragment implements MovieDataAdapter.ListI
     MovieDataAdapter mMovieAdapter;
 
     public ProgressBar mProgressBar;
+
+    private BroadcastReceiver receiver;
 
 
     @Override
@@ -81,7 +90,27 @@ public class TopRatedFragment extends Fragment implements MovieDataAdapter.ListI
         //loadMovieData(AppConstants.getTopRatedFilterValue());
         getLoaderManager().initLoader(ID_TOP_RATED_LOADER,null,this);
 
+        this.receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.d(TAG, "Notification Received");
+                getLoaderManager().destroyLoader(ID_TOP_RATED_LOADER);
+                getLoaderManager().initLoader(ID_TOP_RATED_LOADER,null,mThis);
+            }
+        };
+
+        IntentFilter intentFilter = new IntentFilter(MovieIntentService.DATA_UPDATE_INTENT_FILTER);
+        intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
+
+        getContext().registerReceiver(this.receiver, intentFilter);
+
         return mRootView;
+    }
+
+    @Override
+    public void onDestroy() {
+        getContext().unregisterReceiver(this.receiver);
+        super.onDestroy();
     }
 
     @Override

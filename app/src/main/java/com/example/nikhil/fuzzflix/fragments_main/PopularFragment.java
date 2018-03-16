@@ -1,6 +1,9 @@
 package com.example.nikhil.fuzzflix.fragments_main;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,13 +26,14 @@ import com.example.nikhil.fuzzflix.MovieDataAdapter;
 import com.example.nikhil.fuzzflix.R;
 import com.example.nikhil.fuzzflix.constants.AppConstants;
 import com.example.nikhil.fuzzflix.database.Contract;
+import com.example.nikhil.fuzzflix.sync.MovieIntentService;
 
 /**
  * Created by nikhil on 26/02/18.
  */
 
-public class PopularFragment extends Fragment implements MovieDataAdapter.ListItemClickListener, LoaderManager.LoaderCallbacks<Cursor>{
-
+public class PopularFragment extends Fragment implements MovieDataAdapter.ListItemClickListener,
+        LoaderManager.LoaderCallbacks<Cursor>{
 
 
     private static final String[] projection = {
@@ -44,6 +48,9 @@ public class PopularFragment extends Fragment implements MovieDataAdapter.ListIt
 
 
     private static final String TAG = PopularFragment.class.getSimpleName() ;
+
+    private BroadcastReceiver receiver;
+    private final PopularFragment mThis = this;
 
     /**
      * this for the type of loader, if there are different loading options
@@ -90,9 +97,28 @@ public class PopularFragment extends Fragment implements MovieDataAdapter.ListIt
         //loadMovieData(AppConstants.getPopularFilterValue());
         getLoaderManager().initLoader(ID_POPULAR_LOADER,null,this);
 
+        this.receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.d(TAG, "Notification Received");
+                getLoaderManager().destroyLoader(ID_POPULAR_LOADER);
+                getLoaderManager().initLoader(ID_POPULAR_LOADER,null,mThis);
+            }
+        };
+
+        IntentFilter intentFilter = new IntentFilter(MovieIntentService.DATA_UPDATE_INTENT_FILTER);
+        intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
+
+        getContext().registerReceiver(this.receiver, intentFilter);
+
         return mRootView;
     }
 
+    @Override
+    public void onDestroy() {
+        getContext().unregisterReceiver(this.receiver);
+        super.onDestroy();
+    }
 
     @Override
     public void onListItemClick(int movie_id) {
@@ -139,4 +165,7 @@ public class PopularFragment extends Fragment implements MovieDataAdapter.ListIt
     public void onLoaderReset(Loader<Cursor> loader) {
 
     }
+
+
+
 }
