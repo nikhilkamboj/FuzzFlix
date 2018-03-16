@@ -155,7 +155,11 @@ public class PopularFragment extends Fragment implements MovieDataAdapter.ListIt
     // giving cursor to the recyclerView
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        mProgressBar.setVisibility(View.INVISIBLE);
+        if (data == null || data.getCount() == 0) {
+            mProgressBar.setVisibility(View.VISIBLE);
+        } else {
+            mProgressBar.setVisibility(View.INVISIBLE);
+        }
         // cursor swapping taking place
         Log.v(TAG,"cursor swapping taking place");
         mMovieAdapter.swapCursor(data);
