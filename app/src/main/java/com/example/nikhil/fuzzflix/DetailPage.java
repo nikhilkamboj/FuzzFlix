@@ -13,7 +13,6 @@ import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -37,12 +36,9 @@ import java.net.URLDecoder;
 public class DetailPage extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
-
     private boolean movieAddedToFav;
 
     private ImageView imageView;
-
-
 
     private static final String[] projection = {
             Contract.MainMoviesEntry.MOVIES_ID,
@@ -75,15 +71,13 @@ public class DetailPage extends AppCompatActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_detail_page);
 
         Intent intent = getIntent();
 
         mMovieId = intent.getIntExtra(AppConstants.getKeyMovieId(), 0);
-
-        Log.v(TAG, "movie id:" + mMovieId);
-
+        
         ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager_detail_page);
 
         DetailViewPagerAdapter detailViewPagerAdapter = new DetailViewPagerAdapter(getSupportFragmentManager());
@@ -127,19 +121,14 @@ public class DetailPage extends AppCompatActivity implements
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 if (movieAddedToFav == true) {
-                    // if flag is already set then movie needs to be removed from db
-                    // calling loaders from here to update the tables.
                     imageView.setImageResource(R.drawable.ic_heart_outline);
                     Toast.makeText(getBaseContext(),getResources().getString(R.string.removed_from_fav),Toast.LENGTH_SHORT).show();
-                    // null needs to be changed
                     bundle.putInt(AppConstants.getFavStarButtonKey(),AppConstants.getBundleValueRemoveFav());
                     getSupportLoaderManager().initLoader(ID_UPDATE_LOADER,bundle,DetailPage.this);
                     movieAddedToFav = false;
                 } else {
-                    // if flag is 0 then it eeds to be set i.e movie needed to be added to db
                     imageView.setImageResource(R.drawable.ic_heart_fill);
                     Toast.makeText(getBaseContext(),getResources().getString(R.string.added_to_fav),Toast.LENGTH_SHORT).show();
-                    // null needs to be changed
                     bundle.putInt(AppConstants.getFavStarButtonKey(),AppConstants.getBundleValueAddFav());
                     getSupportLoaderManager().initLoader(ID_UPDATE_LOADER,bundle,DetailPage.this);
                     movieAddedToFav = true;
@@ -147,15 +136,7 @@ public class DetailPage extends AppCompatActivity implements
             }
         });
 
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        getSupportLoaderManager().initLoader(ID_DETAIL_LOADER,null,this);
-
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -182,10 +163,10 @@ public class DetailPage extends AppCompatActivity implements
                 ContentValues values = new ContentValues();
                 values.put(Contract.MainMoviesEntry.MOVIE_IS_FAVOURITE, valueFav);
                 int i = getContentResolver().update(mainUri,values,selections,selectionArgss);
-                Log.i(TAG, "value of i " + i);
-                break;
+                return null;
+            default:
+                return null;
         }
-        return null;
     }
 
     @Override
@@ -206,12 +187,10 @@ public class DetailPage extends AppCompatActivity implements
         String voteAverage = String.valueOf(data.getFloat(data.getColumnIndex(Contract.MainMoviesEntry.MOVIE_VOTE_AVERAGE)));
         mRatingsTextView.setText(voteAverage);
         mTitleTextView.setText(data.getString(data.getColumnIndex(Contract.MainMoviesEntry.MOVIE_TITLE)));
-//        int releaseDate = data.getInt(data.getColumnIndex(Contract.MainMoviesEntry.MOVIE_RELEASE_DATE));
-        Log.v(TAG," title set");
         mReleaseDateTextView.setText(data.getString(data.getColumnIndex(Contract.MainMoviesEntry.MOVIE_RELEASE_DATE)));
         String backgroundImagePath = data.getString(data.getColumnIndex(Contract.MainMoviesEntry.MOVIE_BACK_POSTER_PATH));
 
-        Log.v(TAG,"back poster path" + data.getColumnName(data.getColumnIndex(Contract.MainMoviesEntry.MOVIE_BACK_POSTER_PATH)));
+
         boolean isBackgroundPoster = true;
 
 
@@ -238,7 +217,7 @@ public class DetailPage extends AppCompatActivity implements
         }
 
         Uri imageUri = Uri.parse(backgroundImageUrl);
-        Log.v(TAG, "" + imageUri);
+
         Context context = getBaseContext();
 
         mImageViewProgressBar.setVisibility(View.VISIBLE);
@@ -255,20 +234,11 @@ public class DetailPage extends AppCompatActivity implements
                             }
                         });
 
-        Log.v(TAG, "data count:" + data.getCount());
-
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
     }
-
-    // creating asyncTask for data updation.
-
-
-
-
-
 
 }

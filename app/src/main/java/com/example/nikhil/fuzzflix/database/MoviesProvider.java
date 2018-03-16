@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 /**
  * Created by nikhil on 01/03/18.
@@ -143,10 +142,8 @@ public class MoviesProvider extends ContentProvider {
                 finally {
                     db.endTransaction();
                 }
-                Log.i(TAG,"updated the db");
-                return rowsUpdated;
         }
-        return 0;
+        return rowsUpdated;
     }
 
     @Override

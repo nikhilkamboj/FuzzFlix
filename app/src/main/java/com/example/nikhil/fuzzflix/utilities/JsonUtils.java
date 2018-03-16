@@ -2,7 +2,6 @@ package com.example.nikhil.fuzzflix.utilities;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.util.Log;
 
 import com.example.nikhil.fuzzflix.constants.AppConstants;
 import com.example.nikhil.fuzzflix.data.DisplayData;
@@ -139,7 +138,6 @@ public class JsonUtils {
         try{
             JSONObject jsonObject = new JSONObject(jsonString);
             JSONArray  jsonArray  = jsonObject.getJSONArray(AppConstants.getResultArrayAttribute());
-            Log.i(TAG, "" +jsonArray);
             TrailerData trailerData;
 
             if (jsonArray.length() == 0) {

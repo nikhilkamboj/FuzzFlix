@@ -141,11 +141,8 @@ public class MovieDataAdapter extends RecyclerView.Adapter<MovieDataAdapter.Movi
         @Override
         public void onClick(View v) {
             int itemPosition = getAdapterPosition();
-
             mMovieCursor.moveToPosition(itemPosition);
-
             int moive_Id = mMovieCursor.getInt(mMovieCursor.getColumnIndex(Contract.MainMoviesEntry.MOVIES_ID));
-            // changing here argument to only position
             mItemClickListener.onListItemClick(moive_Id);
         }
     }
@@ -161,9 +158,7 @@ public class MovieDataAdapter extends RecyclerView.Adapter<MovieDataAdapter.Movi
 //    }
 
     public void swapCursor(Cursor cursor) {
-        Log.v(TAG,"cursor in recyclerView");
         mMovieCursor = cursor;
-        Log.v(TAG,"notifying data set changed");
         notifyDataSetChanged();
     }
 }

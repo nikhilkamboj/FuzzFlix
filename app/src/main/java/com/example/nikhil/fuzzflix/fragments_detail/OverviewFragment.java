@@ -59,8 +59,6 @@ public class OverviewFragment extends Fragment implements LoaderManager.LoaderCa
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView =  inflater.inflate(R.layout.overview_fragment,container,false);
 
-        Log.v(TAG, "movieId" + mMovieId);
-
         getLoaderManager().initLoader(ID_POPULAR_LOADER,null,this);
 
         return mView;
